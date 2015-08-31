@@ -10,10 +10,10 @@ import edu.wpi.first.wpilibj.VictorSP;
 public class RobotMap {
 	// *** PHYSICAL COMPONENTS *** //
 	// VictorSP-controlled motors
-	public static VictorSP LEFT_WHEEL_MOTOR_A;
 	public static VictorSP LEFT_WHEEL_MOTOR_B;
 	public static VictorSP RIGHT_WHEEL_MOTOR_A;
 	public static VictorSP RIGHT_WHEEL_MOTOR_B;
+	public static VictorSP LEFT_WHEEL_MOTOR_A;
 	// Solenoids
 	public static Solenoid LEFT_SOLENOID_UP;
 	public static Solenoid LEFT_SOLENOID_DOWN;
