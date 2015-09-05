@@ -1,9 +1,9 @@
 package org.usfirst.frc4904.robot;
 
 
-import org.usfirst.frc4904.cmdbased.subsystems.chassis.SolenoidShifters;
-import org.usfirst.frc4904.cmdbased.subsystems.chassis.TankDriveShifting;
-import org.usfirst.frc4904.cmdbased.subsystems.motor.Motor;
+import org.usfirst.frc4904.standard.subsystems.chassis.SolenoidShifters;
+import org.usfirst.frc4904.standard.subsystems.chassis.TankDriveShifting;
+import org.usfirst.frc4904.standard.subsystems.motor.Motor;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.VictorSP;
 
