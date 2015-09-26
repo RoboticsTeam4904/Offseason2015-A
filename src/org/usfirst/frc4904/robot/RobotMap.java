@@ -40,8 +40,8 @@ public class RobotMap {
 		shifter = new SolenoidShifters(LEFT_SOLENOID_UP, LEFT_SOLENOID_DOWN, RIGHT_SOLENOID_UP, RIGHT_SOLENOID_DOWN);
 		leftWheelA = new Motor("First left wheel", LEFT_WHEEL_MOTOR_A);
 		leftWheelB = new Motor("Second left wheel", LEFT_WHEEL_MOTOR_B);
-		rightWheelA = new Motor("First right wheel", RIGHT_WHEEL_MOTOR_A);
-		rightWheelB = new Motor("Second right wheel", RIGHT_WHEEL_MOTOR_B);
+		rightWheelA = new Motor("First right wheel", RIGHT_WHEEL_MOTOR_A, true);
+		rightWheelB = new Motor("Second right wheel", RIGHT_WHEEL_MOTOR_B, true);
 		chassis = new TankDriveShifting("OffseasonChassis", leftWheelA, leftWheelB, rightWheelA, rightWheelB, shifter);
 	}
 }
