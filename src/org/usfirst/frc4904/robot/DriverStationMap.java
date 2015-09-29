@@ -2,7 +2,6 @@ package org.usfirst.frc4904.robot;
 
 
 import org.usfirst.frc4904.standard.custom.controllers.CustomJoystick;
-import org.usfirst.frc4904.standard.custom.controllers.CustomXbox;
 
 public class DriverStationMap {
 	// *** CONSTANTS *** //
@@ -10,9 +9,9 @@ public class DriverStationMap {
 	public static final int JOYSTICK_PORT = 0;
 	public static final int XBOX_CONTROLLER_PORT = 1;
 	// OI constants
-	public static final double X_SPEED_SCALE = -0.66; // negative because axis is flipped
-	public static final double Y_SPEED_SCALE = 0.66;
-	public static final double TURN_SPEED_SCALE = 0.5;
+	public static final double X_SPEED_SCALE = 1; // negative because axis is flipped
+	public static final double Y_SPEED_SCALE = 1;
+	public static final double TURN_SPEED_SCALE = 1;
 	public static final double XBOX_MINIMUM_THRESHOLD = 0.1;
 	// *** DRIVER *** //
 	// Initialize driver Xbox controller

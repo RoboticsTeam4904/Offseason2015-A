@@ -13,8 +13,8 @@ public class Nathan extends Driver {
 	}
 
 	public void bindCommands() {
-		DriverStationMap.xbox.back.toggleWhenPressed(new Kill(new ChassisIdle(RobotMap.chassis)));
-		DriverStationMap.xbox.lb.toggleWhenPressed(new ChassisShift(RobotMap.chassis.getShifter(), SolenoidShifters.ShiftState.DOWN));
-		DriverStationMap.xbox.rb.toggleWhenPressed(new ChassisShift(RobotMap.chassis.getShifter(), SolenoidShifters.ShiftState.UP));
+		DriverStationMap.xbox.back.whenPressed(new Kill(new ChassisIdle(RobotMap.chassis)));
+		DriverStationMap.xbox.lb.whenPressed(new ChassisShift(RobotMap.chassis.getShifter(), SolenoidShifters.ShiftState.DOWN));
+		DriverStationMap.xbox.rb.whenPressed(new ChassisShift(RobotMap.chassis.getShifter(), SolenoidShifters.ShiftState.UP));
 	}
 }
