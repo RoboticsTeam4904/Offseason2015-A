@@ -23,10 +23,10 @@ public class Nathan extends Driver {
 	}
 	
 	public double getY() {
-		return DriverStationMap.xbox.leftStick.getY();
+		return DriverStationMap.xbox.rt.getX() - DriverStationMap.xbox.lt.getX();
 	}
 	
 	public double getTurnSpeed() {
-		return DriverStationMap.xbox.rightStick.getX();
+		return DriverStationMap.xbox.leftStick.getX();
 	}
 }

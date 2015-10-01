@@ -16,14 +16,14 @@ public class DriverStationMap {
 	public static final double XBOX_MINIMUM_THRESHOLD = 0.1;
 	// *** DRIVER *** //
 	// Initialize driver Xbox controller
-	public static TankXbox xbox;
+	public static CustomXbox xbox;
 	// *** OPERATOR *** //
 	// Initialize operator joystick
 	public static CustomJoystick stick;
 	
 	// Initialize operator buttons
 	public DriverStationMap() {
-		xbox = new TankXbox(XBOX_CONTROLLER_PORT);
+		xbox = new CustomXbox(XBOX_CONTROLLER_PORT);
 		stick = new CustomJoystick(JOYSTICK_PORT);
 		// Initialize driver Xbox controller and buttons
 		DriverStationMap.xbox.rightStick.setXDeadZone(DriverStationMap.XBOX_MINIMUM_THRESHOLD);
