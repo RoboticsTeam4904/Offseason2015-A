@@ -14,6 +14,10 @@ public class DriverStationMap {
 	public static final double Y_SPEED_SCALE = 1;
 	public static final double TURN_SPEED_SCALE = 1;
 	public static final double XBOX_MINIMUM_THRESHOLD = 0.1;
+	public static final double SPEED_GAIN = 1;
+	public static final double SPEED_EXP = 2;
+	public static final double TURN_GAIN = 1;
+	public static final double TURN_EXP = 2;
 	// *** DRIVER *** //
 	// Initialize driver Xbox controller
 	public static CustomXbox xbox;

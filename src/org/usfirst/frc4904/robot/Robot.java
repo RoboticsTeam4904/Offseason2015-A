@@ -31,6 +31,7 @@ public class Robot extends CommandRobotBase {
 		autoChooser.addDefault(new ChassisIdle(RobotMap.chassis));
 		// Configure driver command chooser
 		driverChooser.addDefault(new Nathan());
+		driverChooser.addObject(new NathanGain());
 		// Display choosers on SmartDashboard
 		displayChoosers();
 		SmartDashboard.putData(Scheduler.getInstance());
