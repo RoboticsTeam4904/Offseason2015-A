@@ -4,7 +4,6 @@ package org.usfirst.frc4904.robot;
 import org.usfirst.frc4904.standard.subsystems.chassis.SolenoidShifters;
 import org.usfirst.frc4904.standard.subsystems.chassis.TankDriveShifting;
 import org.usfirst.frc4904.standard.subsystems.motor.Motor;
-
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.Solenoid;
 
@@ -40,8 +39,8 @@ public class RobotMap {
 		shifter = new SolenoidShifters(LEFT_SOLENOID_UP, LEFT_SOLENOID_DOWN, RIGHT_SOLENOID_UP, RIGHT_SOLENOID_DOWN);
 		leftWheelA = new Motor("First left wheel", LEFT_WHEEL_MOTOR_A);
 		leftWheelB = new Motor("Second left wheel", LEFT_WHEEL_MOTOR_B);
-		rightWheelA = new Motor("First right wheel", RIGHT_WHEEL_MOTOR_A);
-		rightWheelB = new Motor("Second right wheel", RIGHT_WHEEL_MOTOR_B);
+		rightWheelA = new Motor("First right wheel", RIGHT_WHEEL_MOTOR_A, true);
+		rightWheelB = new Motor("Second right wheel", RIGHT_WHEEL_MOTOR_B, true);
 		chassis = new TankDriveShifting("OffseasonChassis", leftWheelA, leftWheelB, rightWheelA, rightWheelB, shifter);
 	}
 }
