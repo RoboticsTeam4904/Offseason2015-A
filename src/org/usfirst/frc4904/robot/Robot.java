@@ -1,6 +1,9 @@
 package org.usfirst.frc4904.robot;
 
 
+import org.usfirst.frc4904.robot.humaninterface.drivers.JoystickControl;
+import org.usfirst.frc4904.robot.humaninterface.drivers.Nathan;
+import org.usfirst.frc4904.robot.humaninterface.drivers.NathanGain;
 import org.usfirst.frc4904.standard.CommandRobotBase;
 import org.usfirst.frc4904.standard.commands.chassis.ChassisIdle;
 import org.usfirst.frc4904.standard.commands.chassis.ChassisMove;
@@ -30,7 +33,9 @@ public class Robot extends CommandRobotBase {
 		// Configure autonomous command chooser
 		autoChooser.addDefault(new ChassisIdle(RobotMap.chassis));
 		// Configure driver command chooser
-		driverChooser.addDefault(new Nathan());
+		driverChooser.addDefault(new NathanGain());
+		driverChooser.addObject(new Nathan());
+		driverChooser.addObject(new JoystickControl());
 		// Display choosers on SmartDashboard
 		displayChoosers();
 		SmartDashboard.putData(Scheduler.getInstance());
@@ -59,7 +64,7 @@ public class Robot extends CommandRobotBase {
 			autonomousCommand.cancel();
 		}
 		driverChooser.getSelected().bindCommands();
-		teleopCommand = new ChassisMove(RobotMap.chassis, DriverStationMap.xbox, DriverStationMap.X_SPEED_SCALE, DriverStationMap.Y_SPEED_SCALE, DriverStationMap.TURN_SPEED_SCALE);
+		teleopCommand = new ChassisMove(RobotMap.chassis, driverChooser.getSelected(), DriverStationMap.X_SPEED_SCALE, DriverStationMap.Y_SPEED_SCALE, DriverStationMap.TURN_SPEED_SCALE);
 		teleopCommand.start();
 	}
 	
