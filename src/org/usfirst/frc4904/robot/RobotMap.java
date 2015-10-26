@@ -6,6 +6,7 @@ import org.usfirst.frc4904.standard.subsystems.chassis.SolenoidShifters;
 import org.usfirst.frc4904.standard.subsystems.chassis.TankDriveShifting;
 import org.usfirst.frc4904.standard.subsystems.motor.AccelMotor;
 import org.usfirst.frc4904.standard.subsystems.motor.Motor;
+import org.usfirst.frc4904.standard.subsystems.motor.MotorGroup;
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.Solenoid;
 
@@ -27,6 +28,8 @@ public class RobotMap {
 	public static Motor leftWheelB;
 	public static Motor rightWheelA;
 	public static Motor rightWheelB;
+	public static Motor leftWheel;
+	public static Motor rightWheel;
 	public static TankDriveShifting chassis;
 	public static PDP pdp;
 	
@@ -41,10 +44,12 @@ public class RobotMap {
 		RIGHT_SOLENOID_UP = new Solenoid(7);
 		RIGHT_SOLENOID_DOWN = new Solenoid(6);
 		shifter = new SolenoidShifters(LEFT_SOLENOID_UP, LEFT_SOLENOID_DOWN, RIGHT_SOLENOID_UP, RIGHT_SOLENOID_DOWN);
-		leftWheelA = new AccelMotor("First left wheel", LEFT_WHEEL_MOTOR_A, pdp);
-		leftWheelB = new AccelMotor("Second left wheel", LEFT_WHEEL_MOTOR_B, pdp);
-		rightWheelA = new AccelMotor("First right wheel", RIGHT_WHEEL_MOTOR_A, true, pdp);
-		rightWheelB = new AccelMotor("Second right wheel", RIGHT_WHEEL_MOTOR_B, true, pdp);
+		leftWheelA = new Motor("First left wheel", LEFT_WHEEL_MOTOR_A);
+		leftWheelB = new Motor("Second left wheel", LEFT_WHEEL_MOTOR_B);
+		rightWheelA = new Motor("First right wheel", RIGHT_WHEEL_MOTOR_A, true);
+		rightWheelB = new Motor("Second right wheel", RIGHT_WHEEL_MOTOR_B, true);
+		leftWheel = new AccelMotor("Left wheel accel", new MotorGroup("Left wheel", leftWheelA, leftWheelB), pdp);
+		rightWheel = new AccelMotor("Right wheel accel", new MotorGroup("Right wheel", rightWheelA, rightWheelB), pdp);
 		chassis = new TankDriveShifting("OffseasonChassis", leftWheelA, leftWheelB, rightWheelA, rightWheelB, shifter);
 	}
 }
