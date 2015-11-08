@@ -50,6 +50,6 @@ public class RobotMap {
 		rightWheelB = new Motor("Second right wheel", RIGHT_WHEEL_MOTOR_B, true);
 		leftWheel = new AccelMotor("Left wheel accel", new MotorGroup("Left wheel", leftWheelA, leftWheelB), pdp);
 		rightWheel = new AccelMotor("Right wheel accel", new MotorGroup("Right wheel", rightWheelA, rightWheelB), pdp);
-		chassis = new TankDriveShifting("OffseasonChassis", leftWheelA, leftWheelB, rightWheelA, rightWheelB, shifter);
+		chassis = new TankDriveShifting("OffseasonChassis", leftWheel, rightWheel, shifter);
 	}
 }
