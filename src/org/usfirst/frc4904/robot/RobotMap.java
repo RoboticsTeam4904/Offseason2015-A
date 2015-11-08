@@ -1,9 +1,12 @@
 package org.usfirst.frc4904.robot;
 
 
+import org.usfirst.frc4904.standard.custom.sensors.PDP;
 import org.usfirst.frc4904.standard.subsystems.chassis.SolenoidShifters;
 import org.usfirst.frc4904.standard.subsystems.chassis.TankDriveShifting;
+import org.usfirst.frc4904.standard.subsystems.motor.AccelMotor;
 import org.usfirst.frc4904.standard.subsystems.motor.Motor;
+import org.usfirst.frc4904.standard.subsystems.motor.MotorGroup;
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.Solenoid;
 
@@ -25,9 +28,13 @@ public class RobotMap {
 	public static Motor leftWheelB;
 	public static Motor rightWheelA;
 	public static Motor rightWheelB;
+	public static Motor leftWheel;
+	public static Motor rightWheel;
 	public static TankDriveShifting chassis;
+	public static PDP pdp;
 	
 	public RobotMap() {
+		pdp = new PDP();
 		LEFT_WHEEL_MOTOR_A = new CANTalon(1);
 		LEFT_WHEEL_MOTOR_B = new CANTalon(2);
 		RIGHT_WHEEL_MOTOR_A = new CANTalon(3);
@@ -41,6 +48,8 @@ public class RobotMap {
 		leftWheelB = new Motor("Second left wheel", LEFT_WHEEL_MOTOR_B);
 		rightWheelA = new Motor("First right wheel", RIGHT_WHEEL_MOTOR_A, true);
 		rightWheelB = new Motor("Second right wheel", RIGHT_WHEEL_MOTOR_B, true);
-		chassis = new TankDriveShifting("OffseasonChassis", leftWheelA, leftWheelB, rightWheelA, rightWheelB, shifter);
+		leftWheel = new AccelMotor("Left wheel accel", new MotorGroup("Left wheel", leftWheelA, leftWheelB), pdp);
+		rightWheel = new AccelMotor("Right wheel accel", new MotorGroup("Right wheel", rightWheelA, rightWheelB), pdp);
+		chassis = new TankDriveShifting("OffseasonChassis", leftWheel, rightWheel, shifter);
 	}
 }
