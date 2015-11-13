@@ -2,10 +2,7 @@ package org.usfirst.frc4904.robot;
 
 
 import org.usfirst.frc4904.logkitten.LogKitten;
-import org.usfirst.frc4904.robot.humaninterface.drivers.JoystickControl;
-import org.usfirst.frc4904.robot.humaninterface.drivers.Nathan;
-import org.usfirst.frc4904.robot.humaninterface.drivers.NathanGain;
-import org.usfirst.frc4904.robot.humaninterface.drivers.PureStick;
+import org.usfirst.frc4904.robot.humaninterface.drivers.*;
 import org.usfirst.frc4904.standard.CommandRobotBase;
 import org.usfirst.frc4904.standard.commands.chassis.ChassisIdle;
 import org.usfirst.frc4904.standard.commands.chassis.ChassisMove;
@@ -39,6 +36,7 @@ public class Robot extends CommandRobotBase {
 		driverChooser.addObject(new Nathan());
 		driverChooser.addObject(new JoystickControl());
 		driverChooser.addObject(new PureStick());
+		driverChooser.addObject(new HardMode());
 		// Display choosers on SmartDashboard
 		displayChoosers();
 		SmartDashboard.putData(Scheduler.getInstance());
