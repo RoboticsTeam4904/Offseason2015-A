@@ -1,5 +1,6 @@
 package org.usfirst.frc4904.robot.humaninterface.drivers;
 
+
 import org.usfirst.frc4904.robot.DriverStationMap;
 import org.usfirst.frc4904.robot.RobotMap;
 import org.usfirst.frc4904.standard.commands.Kill;
@@ -9,7 +10,6 @@ import org.usfirst.frc4904.standard.humaninterface.Driver;
 import org.usfirst.frc4904.standard.subsystems.chassis.SolenoidShifters;
 
 public class HardMode extends Driver {
-	
 	public HardMode() {
 		super("Hard Mode");
 	}
@@ -25,11 +25,18 @@ public class HardMode extends Driver {
 	}
 	
 	public double getY() {
-		return DriverStationMap.xbox.lt.getX() + DriverStationMap.xbox.rt.getX() - 1;
+		if (DriverStationMap.xbox.x.get()) {
+			return DriverStationMap.xbox.lt.getX() + DriverStationMap.xbox.rt.getX() - 1;
+		} else {
+			return 0;
+		}
 	}
 	
 	public double getTurnSpeed() {
-		return DriverStationMap.xbox.lt.getX() - DriverStationMap.xbox.rt.getX();
+		if (DriverStationMap.xbox.x.get()) {
+			return DriverStationMap.xbox.lt.getX() - DriverStationMap.xbox.rt.getX();
+		} else {
+			return 0;
+		}
 	}
-
 }
