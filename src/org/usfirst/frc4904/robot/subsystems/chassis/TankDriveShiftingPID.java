@@ -4,25 +4,29 @@ package org.usfirst.frc4904.robot.subsystems.chassis;
 import org.usfirst.frc4904.standard.subsystems.chassis.SolenoidShifters;
 import org.usfirst.frc4904.standard.subsystems.chassis.TankDriveShifting;
 import org.usfirst.frc4904.standard.subsystems.motor.Motor;
-import com.kauailabs.navx_mxp.AHRS;
+import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDOutput;
+import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.SerialPort;
 
 public class TankDriveShiftingPID extends TankDriveShifting implements PIDOutput {
 	AHRS ahrs;
 	private PIDController pid;
 	private double ySpeed;
+	private double maxDegreesPerSecond;
 	
-	public TankDriveShiftingPID(String name, Motor leftWheelA, Motor leftWheelB, Motor rightWheelA, Motor rightWheelB, SolenoidShifters shifter, double Kp, double Ki, double Kd) {
+	public TankDriveShiftingPID(String name, Motor leftWheelA, Motor leftWheelB, Motor rightWheelA, Motor rightWheelB, SolenoidShifters shifter, double Kp, double Ki, double Kd, double maxDegreesPerSecond) {
 		super(name, leftWheelA, leftWheelB, rightWheelA, rightWheelB, shifter);
-		ahrs = new AHRS(new SerialPort(57600, SerialPort.Port.kMXP));
+		ahrs = new AHRS(SerialPort.Port.kMXP);
 		pid = new PIDController(Kp, Ki, Kd, ahrs, this);
 		ySpeed = 0;
-		pid.enable();
-		pid.setInputRange(-180.0f, 180.0f);
-		pid.setOutputRange(-1.0, 1.0);
+		this.maxDegreesPerSecond = maxDegreesPerSecond;
+		pid.setInputRange(-360.0f, 360.0f);
+		pid.setOutputRange(-360.0f, 360.0f);
 		pid.setContinuous(true);
+		ahrs.setPIDSourceType(PIDSourceType.kRate);
+		pid.enable();
 	}
 	
 	/**
@@ -37,7 +41,8 @@ public class TankDriveShiftingPID extends TankDriveShifting implements PIDOutput
 	@Override
 	public void move2dc(double xSpeed, double ySpeed, double turnSpeed) {
 		this.ySpeed = ySpeed;
-		pid.setSetpoint(turnSpeed);
+		double targetDegreesPerSecond = turnSpeed * maxDegreesPerSecond;
+		pid.setSetpoint(targetDegreesPerSecond);
 	}
 	
 	/**
@@ -46,7 +51,8 @@ public class TankDriveShiftingPID extends TankDriveShifting implements PIDOutput
 	 * @return PidValue and moves the motor
 	 */
 	@Override
-	public void pidWrite(double turnSpeed) {
+	public void pidWrite(double PidResult) {
+		double turnSpeed = PidResult / maxDegreesPerSecond;
 		move2dp(ySpeed, 0.0, turnSpeed);
 	}
 }
