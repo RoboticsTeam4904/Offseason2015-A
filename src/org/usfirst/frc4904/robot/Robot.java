@@ -10,6 +10,8 @@ import org.usfirst.frc4904.robot.humaninterface.drivers.PureStick;
 import org.usfirst.frc4904.standard.CommandRobotBase;
 import org.usfirst.frc4904.standard.commands.chassis.ChassisIdle;
 import org.usfirst.frc4904.standard.commands.chassis.ChassisMove;
+import org.usfirst.frc4904.standard.commands.healthchecks.PressureReleaseValve;
+import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -31,7 +33,7 @@ public class Robot extends CommandRobotBase {
 	 * used for any initialization code.
 	 */
 	public void robotInit() {
-		super.robotInit();
+		super.robotInit(new PressureReleaseValve("Compressor", new Compressor(0), RobotMap.SOLENOID_DOWN, 25.0));
 		System.out.println("CommandRobotBase init complete");
 		// Configure autonomous command chooser
 		autoChooser.addDefault(new ChassisIdle(RobotMap.chassis));
@@ -71,14 +73,24 @@ public class Robot extends CommandRobotBase {
 		driverChooser.getSelected().bindCommands();
 		teleopCommand = new ChassisMove(RobotMap.chassis, driverChooser.getSelected(), DriverStationMap.X_SPEED_SCALE, DriverStationMap.Y_SPEED_SCALE, DriverStationMap.TURN_SPEED_SCALE);
 		teleopCommand.start();
+<<<<<<< HEAD
 		LogKitten.setDefaultPrintLevel(LogKitten.LEVEL_WARN);
+=======
+		LogKitten.setDefaultPrintLevel(LogKitten.LEVEL_DEBUG);
+		LogKitten.setPrintMute(true);
+>>>>>>> master
 	}
 	
 	/**
 	 * This function is called when the disabled button is hit. You can use it
 	 * to reset subsystems before shutting down.
 	 */
-	public void disabledInit() {}
+	public void disabledInit() {
+		super.disabledInit();
+		if (teleopCommand != null) {
+			teleopCommand.cancel();
+		}
+	}
 	
 	/**
 	 * This function is called periodically during operator control
