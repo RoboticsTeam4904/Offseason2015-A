@@ -1,6 +1,7 @@
 package org.usfirst.frc4904.robot.subsystems.chassis;
 
 
+import org.usfirst.frc4904.logkitten.LogKitten;
 import org.usfirst.frc4904.standard.subsystems.chassis.SolenoidShifters;
 import org.usfirst.frc4904.standard.subsystems.chassis.TankDriveShifting;
 import org.usfirst.frc4904.standard.subsystems.motor.Motor;
@@ -24,9 +25,6 @@ public class TankDriveShiftingPID extends TankDriveShifting implements PIDOutput
 		this.maxDegreesPerSecond = maxDegreesPerSecond;
 		pid.setInputRange(-360.0f, 360.0f);
 		pid.setOutputRange(-360.0f, 360.0f);
-		pid.setContinuous(true);
-		ahrs.setPIDSourceType(PIDSourceType.kRate);
-		pid.enable();
 	}
 	
 	/**
@@ -43,6 +41,9 @@ public class TankDriveShiftingPID extends TankDriveShifting implements PIDOutput
 		this.ySpeed = ySpeed;
 		double targetDegreesPerSecond = turnSpeed * maxDegreesPerSecond;
 		pid.setSetpoint(targetDegreesPerSecond);
+		ahrs.setPIDSourceType(PIDSourceType.kRate);
+		pid.enable();
+		LogKitten.d("pid enabled");
 	}
 	
 	/**
@@ -52,6 +53,7 @@ public class TankDriveShiftingPID extends TankDriveShifting implements PIDOutput
 	 */
 	@Override
 	public void pidWrite(double PidResult) {
+		LogKitten.d("pid complete");
 		double turnSpeed = PidResult / maxDegreesPerSecond;
 		move2dp(ySpeed, 0.0, turnSpeed);
 	}
