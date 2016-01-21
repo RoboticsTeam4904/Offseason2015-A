@@ -73,12 +73,7 @@ public class Robot extends CommandRobotBase {
 		driverChooser.getSelected().bindCommands();
 		teleopCommand = new ChassisMove(RobotMap.chassis, driverChooser.getSelected(), DriverStationMap.X_SPEED_SCALE, DriverStationMap.Y_SPEED_SCALE, DriverStationMap.TURN_SPEED_SCALE);
 		teleopCommand.start();
-<<<<<<< HEAD
 		LogKitten.setDefaultPrintLevel(LogKitten.LEVEL_WARN);
-=======
-		LogKitten.setDefaultPrintLevel(LogKitten.LEVEL_DEBUG);
-		LogKitten.setPrintMute(true);
->>>>>>> master
 	}
 	
 	/**
