@@ -17,14 +17,17 @@ public class TankDriveShiftingPID extends TankDriveShifting implements PIDOutput
 	private double ySpeed;
 	private double maxDegreesPerSecond;
 	
-	public TankDriveShiftingPID(String name, Motor leftWheelA, Motor leftWheelB, Motor rightWheelA, Motor rightWheelB, SolenoidShifters shifter, double Kp, double Ki, double Kd, double maxDegreesPerSecond) {
-		super(name, leftWheelA, leftWheelB, rightWheelA, rightWheelB, shifter);
+	public TankDriveShiftingPID(String name, Motor leftWheel, Motor rightWheel, SolenoidShifters shifter, double Kp, double Ki, double Kd, double maxDegreesPerSecond) {
+		super(name, leftWheel, rightWheel, shifter);
 		ahrs = new AHRS(SerialPort.Port.kMXP);
 		pid = new PIDController(Kp, Ki, Kd, ahrs, this);
 		ySpeed = 0;
 		this.maxDegreesPerSecond = maxDegreesPerSecond;
 		pid.setInputRange(-360.0f, 360.0f);
 		pid.setOutputRange(-360.0f, 360.0f);
+		ahrs.setPIDSourceType(PIDSourceType.kRate);
+		LogKitten.setPrintMute(true);
+		LogKitten.w("chassis created", true);
 	}
 	
 	/**
@@ -41,9 +44,10 @@ public class TankDriveShiftingPID extends TankDriveShifting implements PIDOutput
 		this.ySpeed = ySpeed;
 		double targetDegreesPerSecond = turnSpeed * maxDegreesPerSecond;
 		pid.setSetpoint(targetDegreesPerSecond);
-		ahrs.setPIDSourceType(PIDSourceType.kRate);
 		pid.enable();
-		LogKitten.d("pid enabled");
+		LogKitten.w("pid enabled", true);
+		double pidresult = pid.get() / maxDegreesPerSecond;
+		super.move2dc(0.0, ySpeed, pidresult);
 	}
 	
 	/**
@@ -53,8 +57,8 @@ public class TankDriveShiftingPID extends TankDriveShifting implements PIDOutput
 	 */
 	@Override
 	public void pidWrite(double PidResult) {
-		LogKitten.d("pid complete");
+		LogKitten.w("pid complete", true);
 		double turnSpeed = PidResult / maxDegreesPerSecond;
-		move2dp(ySpeed, 0.0, turnSpeed);
+		// super.move2dc(ySpeed, 0.0, turnSpeed);
 	}
 }

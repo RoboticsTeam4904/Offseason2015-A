@@ -92,6 +92,7 @@ public class Robot extends CommandRobotBase {
 	 */
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
+		LogKitten.w(Boolean.toString(teleopCommand.isRunning()), true);
 	}
 	
 	/**

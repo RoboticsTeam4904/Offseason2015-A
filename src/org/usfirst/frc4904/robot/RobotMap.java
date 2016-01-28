@@ -48,6 +48,7 @@ public class RobotMap {
 		rightWheelB = new Motor("Second right wheel", RIGHT_WHEEL_MOTOR_B, true);
 		leftWheel = new AccelMotor("Left wheel accel", new MotorGroup("Left wheel", leftWheelA, leftWheelB), pdp);
 		rightWheel = new AccelMotor("Right wheel accel", new MotorGroup("Right wheel", rightWheelA, rightWheelB), pdp);
-		chassis = new TankDriveShiftingPID("OffseasonChassis", leftWheelA, leftWheelB, rightWheelA, rightWheelB, shifter, DriverStationMap.CHASSIS_P, DriverStationMap.CHASSIS_I, DriverStationMap.CHASSIS_D, maxDegreesPerSecond);
+		// chassis = new TankDriveShiftingPID("OffseasonChassis", leftWheelA, leftWheelB, rightWheelA, rightWheelB, shifter, DriverStationMap.CHASSIS_P, DriverStationMap.CHASSIS_I, DriverStationMap.CHASSIS_D, maxDegreesPerSecond);
+		chassis = new TankDriveShiftingPID("OffseasonChassis", leftWheel, rightWheel, shifter, DriverStationMap.CHASSIS_P, DriverStationMap.CHASSIS_I, DriverStationMap.CHASSIS_D, maxDegreesPerSecond);
 	}
 }
