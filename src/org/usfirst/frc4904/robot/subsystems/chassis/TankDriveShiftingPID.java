@@ -45,7 +45,8 @@ public class TankDriveShiftingPID extends TankDriveShifting implements PIDOutput
 		double targetDegreesPerSecond = turnSpeed * maxDegreesPerSecond;
 		pid.setSetpoint(targetDegreesPerSecond);
 		pid.enable();
-		LogKitten.w("pid enabled", true);
+		LogKitten.w(Double.toString(pid.getError()) + " " + Double.toString(ahrs.getRate() - targetDegreesPerSecond), true);
+		LogKitten.w("TurnSpeed: " + Double.toString(turnSpeed) + "PidResult: " + Double.toString(pid.get()), true);
 		double pidresult = pid.get() / maxDegreesPerSecond;
 		super.move2dc(0.0, ySpeed, pidresult);
 	}
