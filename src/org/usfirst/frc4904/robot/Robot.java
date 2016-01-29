@@ -7,6 +7,7 @@ import org.usfirst.frc4904.robot.humaninterface.drivers.JoystickControl;
 import org.usfirst.frc4904.robot.humaninterface.drivers.Nathan;
 import org.usfirst.frc4904.robot.humaninterface.drivers.NathanGain;
 import org.usfirst.frc4904.robot.humaninterface.drivers.PureStick;
+import org.usfirst.frc4904.robot.leds.OffseasonLEDs;
 import org.usfirst.frc4904.standard.CommandRobotBase;
 import org.usfirst.frc4904.standard.commands.chassis.ChassisIdle;
 import org.usfirst.frc4904.standard.commands.chassis.ChassisMove;
@@ -27,6 +28,7 @@ public class Robot extends CommandRobotBase {
 	// Even static objects need initializers
 	RobotMap map = new RobotMap();
 	DriverStationMap dsMap = new DriverStationMap();
+	OffseasonLEDs leds = new OffseasonLEDs(0x600);
 	
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -46,6 +48,9 @@ public class Robot extends CommandRobotBase {
 		// Display choosers on SmartDashboard
 		displayChoosers();
 		SmartDashboard.putData(Scheduler.getInstance());
+		LogKitten.setDefaultPrintLevel(LogKitten.LEVEL_DEBUG);
+		LogKitten.setDefaultDSLevel(LogKitten.LEVEL_DEBUG);
+		LogKitten.setPrintMute(true);
 	}
 	
 	public void disabledPeriodic() {
@@ -73,7 +78,7 @@ public class Robot extends CommandRobotBase {
 		driverChooser.getSelected().bindCommands();
 		teleopCommand = new ChassisMove(RobotMap.chassis, driverChooser.getSelected(), DriverStationMap.X_SPEED_SCALE, DriverStationMap.Y_SPEED_SCALE, DriverStationMap.TURN_SPEED_SCALE);
 		teleopCommand.start();
-		LogKitten.setDefaultPrintLevel(LogKitten.LEVEL_WARN);
+		leds.setColor(128, 0, 0);
 	}
 	
 	/**
@@ -85,6 +90,10 @@ public class Robot extends CommandRobotBase {
 		if (teleopCommand != null) {
 			teleopCommand.cancel();
 		}
+		leds.setColor(128, 0, 0);
+		for (int i = 0; i < 10; i++) {
+			leds.update();
+		}
 	}
 	
 	/**
@@ -92,6 +101,8 @@ public class Robot extends CommandRobotBase {
 	 */
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
+		leds.setColor(0, (int) (Math.abs(driverChooser.getSelected().getY()) * 128), (int) (128 - Math.abs(driverChooser.getSelected().getY() * 128)));
+		leds.update();
 	}
 	
 	/**
