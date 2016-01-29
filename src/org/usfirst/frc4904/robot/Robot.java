@@ -10,7 +10,7 @@ import org.usfirst.frc4904.robot.humaninterface.drivers.PureStick;
 import org.usfirst.frc4904.standard.CommandRobotBase;
 import org.usfirst.frc4904.standard.commands.chassis.ChassisIdle;
 import org.usfirst.frc4904.standard.commands.chassis.ChassisMove;
-import org.usfirst.frc4904.standard.commands.healthchecks.PressureReleaseValve;
+import org.usfirst.frc4904.standard.commands.healthchecks.PressureValveClosedTest;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
@@ -33,7 +33,7 @@ public class Robot extends CommandRobotBase {
 	 * used for any initialization code.
 	 */
 	public void robotInit() {
-		super.robotInit(new PressureReleaseValve("Compressor", new Compressor(0), RobotMap.SOLENOID_DOWN, 25.0));
+		super.robotInit(new PressureValveClosedTest(new Compressor(0), 2.0, 2.0));
 		System.out.println("CommandRobotBase init complete");
 		// Configure autonomous command chooser
 		autoChooser.addDefault(new ChassisIdle(RobotMap.chassis));
@@ -73,8 +73,7 @@ public class Robot extends CommandRobotBase {
 		driverChooser.getSelected().bindCommands();
 		teleopCommand = new ChassisMove(RobotMap.chassis, driverChooser.getSelected(), DriverStationMap.X_SPEED_SCALE, DriverStationMap.Y_SPEED_SCALE, DriverStationMap.TURN_SPEED_SCALE);
 		teleopCommand.start();
-		LogKitten.setDefaultPrintLevel(LogKitten.LEVEL_DEBUG);
-		LogKitten.setPrintMute(true);
+		LogKitten.setDefaultPrintLevel(LogKitten.LEVEL_WARN);
 	}
 	
 	/**
