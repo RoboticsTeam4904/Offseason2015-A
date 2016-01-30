@@ -19,15 +19,18 @@ public class TankDriveShiftingPID extends TankDriveShifting implements PIDOutput
 	
 	public TankDriveShiftingPID(String name, Motor leftWheel, Motor rightWheel, SolenoidShifters shifter, double Kp, double Ki, double Kd, double maxDegreesPerSecond) {
 		super(name, leftWheel, rightWheel, shifter);
-		ahrs = new AHRS(SerialPort.Port.kMXP);
-		pid = new PIDController(Kp, Ki, Kd, ahrs, this);
+		ahrs = new AHRS(SerialPort.Port.kUSB);
+		ahrs.reset();
+		ahrs.resetDisplacement();
+		ahrs.setPIDSourceType(PIDSourceType.kDisplacement);
+		pid = new PIDController(Kp, Ki, Kd, 0.0, ahrs, this);
 		ySpeed = 0;
 		this.maxDegreesPerSecond = maxDegreesPerSecond;
 		pid.setInputRange(-360.0f, 360.0f);
 		pid.setOutputRange(-360.0f, 360.0f);
-		ahrs.setPIDSourceType(PIDSourceType.kRate);
 		LogKitten.setPrintMute(true);
 		LogKitten.w("chassis created", true);
+		pid.enable();
 	}
 	
 	/**
@@ -42,12 +45,16 @@ public class TankDriveShiftingPID extends TankDriveShifting implements PIDOutput
 	@Override
 	public void move2dc(double xSpeed, double ySpeed, double turnSpeed) {
 		this.ySpeed = ySpeed;
-		double targetDegreesPerSecond = turnSpeed * maxDegreesPerSecond;
+		double targetDegreesPerSecond = -1.0 * turnSpeed * maxDegreesPerSecond;
 		pid.setSetpoint(targetDegreesPerSecond);
-		pid.enable();
-		LogKitten.w(Double.toString(pid.getError()) + " " + Double.toString(ahrs.getRate() - targetDegreesPerSecond), true);
-		LogKitten.w("TurnSpeed: " + Double.toString(turnSpeed) + "PidResult: " + Double.toString(pid.get()), true);
-		double pidresult = pid.get() / maxDegreesPerSecond;
+		double pidresult = (targetDegreesPerSecond + pid.get()) / maxDegreesPerSecond;
+		if (pidresult > 1) {
+			pidresult = 1;
+		}
+		if (pidresult < -1) {
+			pidresult = -1;
+		}
+		LogKitten.w("PID Out: " + pidresult + ", Without PID: " + targetDegreesPerSecond / maxDegreesPerSecond, true);
 		super.move2dc(0.0, ySpeed, pidresult);
 	}
 	
@@ -58,7 +65,7 @@ public class TankDriveShiftingPID extends TankDriveShifting implements PIDOutput
 	 */
 	@Override
 	public void pidWrite(double PidResult) {
-		LogKitten.w("pid complete", true);
+		// LogKitten.w("pid complete", true);
 		double turnSpeed = PidResult / maxDegreesPerSecond;
 		// super.move2dc(ySpeed, 0.0, turnSpeed);
 	}
