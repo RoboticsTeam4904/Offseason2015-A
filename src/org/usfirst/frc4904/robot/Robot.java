@@ -38,8 +38,8 @@ public class Robot extends CommandRobotBase {
 		// Configure autonomous command chooser
 		autoChooser.addDefault(new ChassisIdle(RobotMap.chassis));
 		// Configure driver command chooser
-		driverChooser.addDefault(new NathanGain());
-		driverChooser.addObject(new Nathan());
+		driverChooser.addObject(new NathanGain());
+		driverChooser.addDefault(new Nathan());
 		driverChooser.addObject(new JoystickControl());
 		driverChooser.addObject(new PureStick());
 		driverChooser.addObject(new HardMode());
