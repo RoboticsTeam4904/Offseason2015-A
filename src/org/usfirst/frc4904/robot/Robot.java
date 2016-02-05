@@ -1,17 +1,18 @@
 package org.usfirst.frc4904.robot;
 
 
-import org.usfirst.frc4904.logkitten.LogKitten;
 import org.usfirst.frc4904.robot.humaninterface.drivers.HardMode;
 import org.usfirst.frc4904.robot.humaninterface.drivers.JoystickControl;
 import org.usfirst.frc4904.robot.humaninterface.drivers.Nathan;
 import org.usfirst.frc4904.robot.humaninterface.drivers.NathanGain;
 import org.usfirst.frc4904.robot.humaninterface.drivers.PureStick;
+import org.usfirst.frc4904.robot.leds.OffseasonLEDs;
 import org.usfirst.frc4904.robot.subsystems.chassis.TankDriveShiftingPID;
 import org.usfirst.frc4904.standard.CommandRobotBase;
+import org.usfirst.frc4904.standard.LogKitten;
 import org.usfirst.frc4904.standard.commands.chassis.ChassisIdle;
 import org.usfirst.frc4904.standard.commands.chassis.ChassisMove;
-import org.usfirst.frc4904.standard.commands.healthchecks.PressureReleaseValve;
+import org.usfirst.frc4904.standard.commands.healthchecks.PressureValveClosedTest;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
@@ -31,13 +32,14 @@ public class Robot extends CommandRobotBase {
 	// Even static objects need initializers
 	RobotMap map = new RobotMap();
 	DriverStationMap dsMap = new DriverStationMap();
+	OffseasonLEDs leds = new OffseasonLEDs(0x600);
 	
 	/**
 	 * This function is run when the robot is first started up and should be
 	 * used for any initialization code.
 	 */
 	public void robotInit() {
-		super.robotInit(new PressureReleaseValve("Compressor", new Compressor(0), RobotMap.SOLENOID_DOWN, 25.0));
+		super.robotInit(new PressureValveClosedTest(new Compressor(0), 2.0, 2.0));
 		System.out.println("CommandRobotBase init complete");
 		// Configure autonomous command chooser
 		autoChooser.addDefault(new ChassisIdle(RobotMap.chassis));
@@ -53,6 +55,9 @@ public class Robot extends CommandRobotBase {
 		SmartDashboard.putNumber("P", 0.0);
 		SmartDashboard.putNumber("I", 0.0);
 		SmartDashboard.putNumber("D", 0.0);
+		LogKitten.setDefaultPrintLevel(LogKitten.LEVEL_DEBUG);
+		LogKitten.setDefaultDSLevel(LogKitten.LEVEL_DEBUG);
+		LogKitten.setPrintMute(true);
 	}
 	
 	public void disabledPeriodic() {
@@ -85,6 +90,7 @@ public class Robot extends CommandRobotBase {
 		Constant_I = SmartDashboard.getNumber("I", 0.0);
 		Constant_D = SmartDashboard.getNumber("D", 0.0);
 		TankDriveShiftingPID.pid.setPID(Constant_P, Constant_I, Constant_D);
+		leds.setColor(128, 0, 0);
 	}
 	
 	/**
@@ -96,6 +102,10 @@ public class Robot extends CommandRobotBase {
 		if (teleopCommand != null) {
 			teleopCommand.cancel();
 		}
+		leds.setColor(128, 0, 0);
+		for (int i = 0; i < 10; i++) {
+			leds.update();
+		}
 	}
 	
 	/**
@@ -103,6 +113,8 @@ public class Robot extends CommandRobotBase {
 	 */
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
+		leds.setColor(0, (int) (Math.abs(driverChooser.getSelected().getY()) * 128), (int) (128 - Math.abs(driverChooser.getSelected().getY() * 128)));
+		leds.update();
 	}
 	
 	/**
