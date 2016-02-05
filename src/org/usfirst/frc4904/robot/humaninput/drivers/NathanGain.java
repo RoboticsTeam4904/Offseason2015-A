@@ -1,4 +1,4 @@
-package org.usfirst.frc4904.robot.humaninterface.drivers;
+package org.usfirst.frc4904.robot.humaninput.drivers;
 
 
 import org.usfirst.frc4904.robot.DriverStationMap;
@@ -6,12 +6,12 @@ import org.usfirst.frc4904.robot.RobotMap;
 import org.usfirst.frc4904.standard.commands.Kill;
 import org.usfirst.frc4904.standard.commands.chassis.ChassisIdle;
 import org.usfirst.frc4904.standard.commands.chassis.ChassisShift;
-import org.usfirst.frc4904.standard.humaninterface.Driver;
+import org.usfirst.frc4904.standard.humaninput.Driver;
 import org.usfirst.frc4904.standard.subsystems.chassis.SolenoidShifters;
 
-public class HardMode extends Driver {
-	public HardMode() {
-		super("Hard Mode");
+public class NathanGain extends Driver {
+	public NathanGain() {
+		super("NathanGain");
 	}
 	
 	public void bindCommands() {
@@ -25,18 +25,26 @@ public class HardMode extends Driver {
 	}
 	
 	public double getY() {
-		if (DriverStationMap.xbox.x.get()) {
-			return DriverStationMap.xbox.lt.getX() + DriverStationMap.xbox.rt.getX() - 1;
+		double speed = DriverStationMap.xbox.rt.getX() - DriverStationMap.xbox.lt.getX();
+		if (speed < 0) {
+			speed = Math.pow(speed, DriverStationMap.SPEED_EXP);
+			speed *= -DriverStationMap.SPEED_GAIN;
 		} else {
-			return 0;
+			speed = Math.pow(speed, DriverStationMap.SPEED_EXP);
+			speed *= DriverStationMap.SPEED_GAIN;
 		}
+		return speed;
 	}
 	
 	public double getTurnSpeed() {
-		if (DriverStationMap.xbox.x.get()) {
-			return DriverStationMap.xbox.lt.getX() - DriverStationMap.xbox.rt.getX();
+		double turnSpeed = DriverStationMap.xbox.leftStick.getX();
+		if (turnSpeed < 0) {
+			turnSpeed = Math.pow(turnSpeed, DriverStationMap.TURN_EXP);
+			turnSpeed *= -DriverStationMap.TURN_GAIN;
 		} else {
-			return 0;
+			turnSpeed = Math.pow(turnSpeed, DriverStationMap.TURN_EXP);
+			turnSpeed *= DriverStationMap.TURN_GAIN;
 		}
+		return turnSpeed;
 	}
 }

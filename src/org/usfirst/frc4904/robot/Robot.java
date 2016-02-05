@@ -1,11 +1,11 @@
 package org.usfirst.frc4904.robot;
 
 
-import org.usfirst.frc4904.robot.humaninterface.drivers.HardMode;
-import org.usfirst.frc4904.robot.humaninterface.drivers.JoystickControl;
-import org.usfirst.frc4904.robot.humaninterface.drivers.Nathan;
-import org.usfirst.frc4904.robot.humaninterface.drivers.NathanGain;
-import org.usfirst.frc4904.robot.humaninterface.drivers.PureStick;
+import org.usfirst.frc4904.robot.humaninput.drivers.HardMode;
+import org.usfirst.frc4904.robot.humaninput.drivers.JoystickControl;
+import org.usfirst.frc4904.robot.humaninput.drivers.Nathan;
+import org.usfirst.frc4904.robot.humaninput.drivers.NathanGain;
+import org.usfirst.frc4904.robot.humaninput.drivers.PureStick;
 import org.usfirst.frc4904.robot.leds.OffseasonLEDs;
 import org.usfirst.frc4904.standard.CommandRobotBase;
 import org.usfirst.frc4904.standard.LogKitten;

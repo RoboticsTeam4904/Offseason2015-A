@@ -1,4 +1,4 @@
-package org.usfirst.frc4904.robot.humaninterface.drivers;
+package org.usfirst.frc4904.robot.humaninput.drivers;
 
 
 import org.usfirst.frc4904.robot.DriverStationMap;
@@ -6,12 +6,12 @@ import org.usfirst.frc4904.robot.RobotMap;
 import org.usfirst.frc4904.standard.commands.Kill;
 import org.usfirst.frc4904.standard.commands.chassis.ChassisIdle;
 import org.usfirst.frc4904.standard.commands.chassis.ChassisShift;
-import org.usfirst.frc4904.standard.humaninterface.Driver;
+import org.usfirst.frc4904.standard.humaninput.Driver;
 import org.usfirst.frc4904.standard.subsystems.chassis.SolenoidShifters;
 
-public class Nathan extends Driver {
-	public Nathan() {
-		super("Nathan"); // supernathan!
+public class HardMode extends Driver {
+	public HardMode() {
+		super("Hard Mode");
 	}
 	
 	public void bindCommands() {
@@ -25,10 +25,18 @@ public class Nathan extends Driver {
 	}
 	
 	public double getY() {
-		return DriverStationMap.xbox.rt.getX() - DriverStationMap.xbox.lt.getX();
+		if (DriverStationMap.xbox.x.get()) {
+			return DriverStationMap.xbox.lt.getX() + DriverStationMap.xbox.rt.getX() - 1;
+		} else {
+			return 0;
+		}
 	}
 	
 	public double getTurnSpeed() {
-		return DriverStationMap.xbox.leftStick.getX();
+		if (DriverStationMap.xbox.x.get()) {
+			return DriverStationMap.xbox.lt.getX() - DriverStationMap.xbox.rt.getX();
+		} else {
+			return 0;
+		}
 	}
 }
