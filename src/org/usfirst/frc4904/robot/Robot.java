@@ -7,6 +7,7 @@ import org.usfirst.frc4904.robot.humaninterface.drivers.Nathan;
 import org.usfirst.frc4904.robot.humaninterface.drivers.NathanGain;
 import org.usfirst.frc4904.robot.humaninterface.drivers.PureStick;
 import org.usfirst.frc4904.robot.leds.OffseasonLEDs;
+import org.usfirst.frc4904.robot.subsystems.chassis.TankDriveShiftingPID;
 import org.usfirst.frc4904.standard.CommandRobotBase;
 import org.usfirst.frc4904.standard.LogKitten;
 import org.usfirst.frc4904.standard.commands.chassis.ChassisIdle;
@@ -25,6 +26,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * directory.
  */
 public class Robot extends CommandRobotBase {
+	double Constant_P;
+	double Constant_I;
+	double Constant_D;
 	// Even static objects need initializers
 	RobotMap map = new RobotMap();
 	DriverStationMap dsMap = new DriverStationMap();
@@ -48,6 +52,9 @@ public class Robot extends CommandRobotBase {
 		// Display choosers on SmartDashboard
 		displayChoosers();
 		SmartDashboard.putData(Scheduler.getInstance());
+		SmartDashboard.putNumber("P", 0.0);
+		SmartDashboard.putNumber("I", 0.0);
+		SmartDashboard.putNumber("D", 0.0);
 		LogKitten.setDefaultPrintLevel(LogKitten.LEVEL_DEBUG);
 		LogKitten.setDefaultDSLevel(LogKitten.LEVEL_DEBUG);
 		LogKitten.setPrintMute(true);
@@ -78,6 +85,11 @@ public class Robot extends CommandRobotBase {
 		driverChooser.getSelected().bindCommands();
 		teleopCommand = new ChassisMove(RobotMap.chassis, driverChooser.getSelected(), DriverStationMap.X_SPEED_SCALE, DriverStationMap.Y_SPEED_SCALE, DriverStationMap.TURN_SPEED_SCALE);
 		teleopCommand.start();
+		LogKitten.setDefaultPrintLevel(LogKitten.LEVEL_WARN);
+		Constant_P = SmartDashboard.getNumber("P", 0.0);
+		Constant_I = SmartDashboard.getNumber("I", 0.0);
+		Constant_D = SmartDashboard.getNumber("D", 0.0);
+		TankDriveShiftingPID.pid.setPID(Constant_P, Constant_I, Constant_D);
 		leds.setColor(128, 0, 0);
 	}
 	

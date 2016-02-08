@@ -1,7 +1,7 @@
 package org.usfirst.frc4904.robot.subsystems.chassis;
 
 
-import org.usfirst.frc4904.logkitten.LogKitten;
+import org.usfirst.frc4904.standard.LogKitten;
 import org.usfirst.frc4904.standard.custom.sensors.NavX;
 import org.usfirst.frc4904.standard.subsystems.chassis.SolenoidShifters;
 import org.usfirst.frc4904.standard.subsystems.chassis.TankDriveShifting;
@@ -13,7 +13,7 @@ import edu.wpi.first.wpilibj.SerialPort;
 
 public class TankDriveShiftingPID extends TankDriveShifting implements PIDOutput {
 	private NavX ahrs;
-	private PIDController pid;
+	public static PIDController pid;
 	private double ySpeed;
 	private final double maxDegreesPerSecond;
 	private final double navxUpdateRate;
@@ -53,9 +53,9 @@ public class TankDriveShiftingPID extends TankDriveShifting implements PIDOutput
 	
 	@Override
 	public void pidWrite(double pidOutput) {
-		double pidresult = (pidOutput / maxDegreesPerSecond) * navxUpdateRate;
+		double pidresult = ((pidOutput * navxUpdateRate) / maxDegreesPerSecond);
 		pidresult = Math.max(Math.min(pidresult, 1), -1);
-		LogKitten.w("PID Out: " + pidresult + ", Raw PID Out: " + pidOutput + ", Direct pidGet(): " + ahrs.pidGet() + ", Setpoint: " + pid.getSetpoint() + ", Error: " + pid.getError(), true);
-		super.move2dc(0.0, ySpeed, pidresult);
+		LogKitten.w("PID Out: " + pidresult + ", Raw PID Out: " + pidOutput * navxUpdateRate + ", Direct pidGet(): " + ahrs.pidGet() * navxUpdateRate + ", Setpoint: " + pid.getSetpoint() * navxUpdateRate + ", Error: " + pid.getError() * navxUpdateRate + " P " + pid.getP() + " I " + pid.getI() + " D " + pid.getD(), true);
+		super.move2dc(0.0, this.ySpeed, pidresult);
 	}
 }
