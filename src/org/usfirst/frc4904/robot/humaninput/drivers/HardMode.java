@@ -1,7 +1,6 @@
 package org.usfirst.frc4904.robot.humaninput.drivers;
 
 
-import org.usfirst.frc4904.robot.DriverStationMap;
 import org.usfirst.frc4904.robot.RobotMap;
 import org.usfirst.frc4904.standard.commands.Kill;
 import org.usfirst.frc4904.standard.commands.chassis.ChassisIdle;
@@ -15,9 +14,9 @@ public class HardMode extends Driver {
 	}
 	
 	public void bindCommands() {
-		DriverStationMap.xbox.back.whenPressed(new Kill(new ChassisIdle(RobotMap.chassis)));
-		DriverStationMap.xbox.a.whenPressed(new ChassisShift(RobotMap.chassis.getShifter(), SolenoidShifters.ShiftState.DOWN));
-		DriverStationMap.xbox.b.whenPressed(new ChassisShift(RobotMap.chassis.getShifter(), SolenoidShifters.ShiftState.UP));
+		RobotMap.HumanInput.Driver.xbox.back.whenPressed(new Kill(new ChassisIdle(RobotMap.Component.chassis)));
+		RobotMap.HumanInput.Driver.xbox.a.whenPressed(new ChassisShift(RobotMap.Component.chassis.getShifter(), SolenoidShifters.ShiftState.DOWN));
+		RobotMap.HumanInput.Driver.xbox.b.whenPressed(new ChassisShift(RobotMap.Component.chassis.getShifter(), SolenoidShifters.ShiftState.UP));
 	}
 	
 	public double getX() {
@@ -25,16 +24,16 @@ public class HardMode extends Driver {
 	}
 	
 	public double getY() {
-		if (DriverStationMap.xbox.x.get()) {
-			return DriverStationMap.xbox.lt.getX() + DriverStationMap.xbox.rt.getX() - 1;
+		if (RobotMap.HumanInput.Driver.xbox.x.get()) {
+			return RobotMap.HumanInput.Driver.xbox.lt.getX() + RobotMap.HumanInput.Driver.xbox.rt.getX() - 1;
 		} else {
 			return 0;
 		}
 	}
 	
 	public double getTurnSpeed() {
-		if (DriverStationMap.xbox.x.get()) {
-			return DriverStationMap.xbox.lt.getX() - DriverStationMap.xbox.rt.getX();
+		if (RobotMap.HumanInput.Driver.xbox.x.get()) {
+			return RobotMap.HumanInput.Driver.xbox.lt.getX() - RobotMap.HumanInput.Driver.xbox.rt.getX();
 		} else {
 			return 0;
 		}

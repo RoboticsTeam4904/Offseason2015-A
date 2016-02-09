@@ -1,7 +1,6 @@
 package org.usfirst.frc4904.robot.humaninput.drivers;
 
 
-import org.usfirst.frc4904.robot.DriverStationMap;
 import org.usfirst.frc4904.robot.RobotMap;
 import org.usfirst.frc4904.standard.commands.Kill;
 import org.usfirst.frc4904.standard.commands.chassis.ChassisIdle;
@@ -15,9 +14,9 @@ public class Nathan extends Driver {
 	}
 	
 	public void bindCommands() {
-		DriverStationMap.xbox.back.whenPressed(new Kill(new ChassisIdle(RobotMap.chassis)));
-		DriverStationMap.xbox.a.whenPressed(new ChassisShift(RobotMap.chassis.getShifter(), SolenoidShifters.ShiftState.DOWN));
-		DriverStationMap.xbox.b.whenPressed(new ChassisShift(RobotMap.chassis.getShifter(), SolenoidShifters.ShiftState.UP));
+		RobotMap.HumanInput.Driver.xbox.back.whenPressed(new Kill(new ChassisIdle(RobotMap.Component.chassis)));
+		RobotMap.HumanInput.Driver.xbox.a.whenPressed(new ChassisShift(RobotMap.Component.chassis.getShifter(), SolenoidShifters.ShiftState.DOWN));
+		RobotMap.HumanInput.Driver.xbox.b.whenPressed(new ChassisShift(RobotMap.Component.chassis.getShifter(), SolenoidShifters.ShiftState.UP));
 	}
 	
 	public double getX() {
@@ -25,10 +24,10 @@ public class Nathan extends Driver {
 	}
 	
 	public double getY() {
-		return DriverStationMap.xbox.rt.getX() - DriverStationMap.xbox.lt.getX();
+		return RobotMap.HumanInput.Driver.xbox.rt.getX() - RobotMap.HumanInput.Driver.xbox.lt.getX();
 	}
 	
 	public double getTurnSpeed() {
-		return DriverStationMap.xbox.leftStick.getX();
+		return RobotMap.HumanInput.Driver.xbox.leftStick.getX();
 	}
 }
