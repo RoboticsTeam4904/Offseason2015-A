@@ -74,5 +74,7 @@ public class RobotMap {
 		Component.leftWheel = MotorFactory.getAccelMotorGroup("LeftWheel", false, Component.pdp, new CANTalon(Port.Motors.CAN.leftDriveA), new CANTalon(Port.Motors.CAN.leftDriveB));
 		Component.rightWheel = MotorFactory.getAccelMotorGroup("RightWheel", true, Component.pdp, new CANTalon(Port.Motors.CAN.rightDriveA), new CANTalon(Port.Motors.CAN.rightDriveB));
 		Component.chassis = new TankDriveShifting("OffseasonChassis", Component.leftWheel, Component.rightWheel, Component.shifter);
+		HumanInput.Driver.xbox = new CustomXbox(Port.HumanInput.xboxController);
+		HumanInput.Operator.stick = new CustomJoystick(Port.HumanInput.joystick);
 	}
 }
