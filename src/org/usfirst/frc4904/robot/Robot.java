@@ -47,9 +47,8 @@ public class Robot extends CommandRobotBase {
 		// Display choosers on SmartDashboard
 		displayChoosers();
 		SmartDashboard.putData(Scheduler.getInstance());
-		LogKitten.setDefaultPrintLevel(LogKitten.LEVEL_DEBUG);
-		LogKitten.setDefaultDSLevel(LogKitten.LEVEL_DEBUG);
-		LogKitten.setPrintMute(true);
+		LogKitten.setDefaultPrintLevel(LogKitten.LEVEL_FATAL);
+		LogKitten.setDefaultDSLevel(LogKitten.LEVEL_FATAL);
 	}
 	
 	public void disabledPeriodic() {
