@@ -8,7 +8,6 @@ import org.usfirst.frc4904.robot.humaninput.drivers.NathanGain;
 import org.usfirst.frc4904.robot.humaninput.drivers.PureStick;
 import org.usfirst.frc4904.robot.leds.OffseasonLEDs;
 import org.usfirst.frc4904.standard.CommandRobotBase;
-import org.usfirst.frc4904.standard.LogKitten;
 import org.usfirst.frc4904.standard.commands.chassis.ChassisIdle;
 import org.usfirst.frc4904.standard.commands.chassis.ChassisMove;
 import org.usfirst.frc4904.standard.commands.healthchecks.PressureValveClosedTest;
@@ -47,9 +46,6 @@ public class Robot extends CommandRobotBase {
 		// Display choosers on SmartDashboard
 		displayChoosers();
 		SmartDashboard.putData(Scheduler.getInstance());
-		LogKitten.setDefaultPrintLevel(LogKitten.LEVEL_DEBUG);
-		LogKitten.setDefaultDSLevel(LogKitten.LEVEL_DEBUG);
-		LogKitten.setPrintMute(true);
 	}
 	
 	public void disabledPeriodic() {

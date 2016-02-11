@@ -7,7 +7,7 @@ import org.usfirst.frc4904.standard.custom.sensors.PDP;
 import org.usfirst.frc4904.standard.subsystems.chassis.SolenoidShifters;
 import org.usfirst.frc4904.standard.subsystems.chassis.TankDriveShifting;
 import org.usfirst.frc4904.standard.subsystems.motor.Motor;
-import org.usfirst.frc4904.standard.subsystems.motor.MotorFactory;
+import org.usfirst.frc4904.standard.subsystems.motor.speedmodifiers.AccelerationCap;
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.Solenoid;
 
@@ -71,8 +71,8 @@ public class RobotMap {
 		Component.solenoidUp = new Solenoid(Port.Pneumatics.solenoidUp);
 		Component.solenoidDown = new Solenoid(Port.Pneumatics.solenoidDown);
 		Component.shifter = new SolenoidShifters(Component.solenoidUp, Component.solenoidDown, Component.solenoidUp, Component.solenoidDown);
-		Component.leftWheel = MotorFactory.getAccelMotorGroup("LeftWheel", false, Component.pdp, new CANTalon(Port.Motors.CAN.leftDriveA), new CANTalon(Port.Motors.CAN.leftDriveB));
-		Component.rightWheel = MotorFactory.getAccelMotorGroup("RightWheel", true, Component.pdp, new CANTalon(Port.Motors.CAN.rightDriveA), new CANTalon(Port.Motors.CAN.rightDriveB));
+		Component.leftWheel = new Motor("LeftWheel", false, new AccelerationCap(Component.pdp), new CANTalon(Port.Motors.CAN.leftDriveA), new CANTalon(Port.Motors.CAN.leftDriveB));
+		Component.rightWheel = new Motor("RightWheel", true, new AccelerationCap(Component.pdp), new CANTalon(Port.Motors.CAN.rightDriveA), new CANTalon(Port.Motors.CAN.rightDriveB));
 		Component.chassis = new TankDriveShifting("OffseasonChassis", Component.leftWheel, Component.rightWheel, Component.shifter);
 		HumanInput.Driver.xbox = new CustomXbox(Port.HumanInput.xboxController);
 		HumanInput.Operator.stick = new CustomJoystick(Port.HumanInput.joystick);
