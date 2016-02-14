@@ -6,7 +6,6 @@ import org.usfirst.frc4904.standard.custom.controllers.CustomJoystick;
 import org.usfirst.frc4904.standard.custom.controllers.CustomXbox;
 import org.usfirst.frc4904.standard.custom.sensors.PDP;
 import org.usfirst.frc4904.standard.subsystems.chassis.SolenoidShifters;
-import org.usfirst.frc4904.standard.subsystems.chassis.TankDriveShifting;
 import org.usfirst.frc4904.standard.subsystems.motor.Motor;
 import org.usfirst.frc4904.standard.subsystems.motor.speedmodifiers.AccelerationCap;
 import edu.wpi.first.wpilibj.CANTalon;
@@ -60,7 +59,7 @@ public class RobotMap {
 		public static Solenoid solenoidUp;
 		public static Solenoid solenoidDown;
 		public static SolenoidShifters shifter;
-		public static TankDriveShifting chassis;
+		public static TankDriveShiftingPID chassis;
 		public static PDP pdp;
 	}
 	
