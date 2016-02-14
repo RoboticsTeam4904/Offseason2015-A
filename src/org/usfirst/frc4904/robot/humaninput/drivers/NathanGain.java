@@ -1,7 +1,6 @@
 package org.usfirst.frc4904.robot.humaninput.drivers;
 
 
-import org.usfirst.frc4904.robot.DriverStationMap;
 import org.usfirst.frc4904.robot.RobotMap;
 import org.usfirst.frc4904.standard.commands.Kill;
 import org.usfirst.frc4904.standard.commands.chassis.ChassisIdle;
@@ -14,37 +13,33 @@ public class NathanGain extends Driver {
 		super("NathanGain");
 	}
 	
-	public void bindCommands() {
-		DriverStationMap.xbox.back.whenPressed(new Kill(new ChassisIdle(RobotMap.chassis)));
-		DriverStationMap.xbox.a.whenPressed(new ChassisShift(RobotMap.chassis.getShifter(), SolenoidShifters.ShiftState.DOWN));
-		DriverStationMap.xbox.b.whenPressed(new ChassisShift(RobotMap.chassis.getShifter(), SolenoidShifters.ShiftState.UP));
+	protected double scaleGain(double input, double gain, double exp) {
+		return Math.pow(input, exp) * gain * Math.signum(input);
 	}
 	
+	@Override
+	public void bindCommands() {
+		RobotMap.HumanInput.Driver.xbox.back.whenPressed(new Kill(new ChassisIdle(RobotMap.Component.chassis)));
+		RobotMap.HumanInput.Driver.xbox.a.whenPressed(new ChassisShift(RobotMap.Component.chassis.getShifter(), SolenoidShifters.ShiftState.DOWN));
+		RobotMap.HumanInput.Driver.xbox.b.whenPressed(new ChassisShift(RobotMap.Component.chassis.getShifter(), SolenoidShifters.ShiftState.UP));
+	}
+	
+	@Override
 	public double getX() {
 		return 0;
 	}
 	
+	@Override
 	public double getY() {
-		double speed = DriverStationMap.xbox.rt.getX() - DriverStationMap.xbox.lt.getX();
-		if (speed < 0) {
-			speed = Math.pow(speed, DriverStationMap.SPEED_EXP);
-			speed *= -DriverStationMap.SPEED_GAIN;
-		} else {
-			speed = Math.pow(speed, DriverStationMap.SPEED_EXP);
-			speed *= DriverStationMap.SPEED_GAIN;
-		}
+		double rawSpeed = RobotMap.HumanInput.Driver.xbox.rt.getX() - RobotMap.HumanInput.Driver.xbox.lt.getX();
+		double speed = -1 * scaleGain(rawSpeed, RobotMap.Constant.HumanInput.SPEED_GAIN, RobotMap.Constant.HumanInput.SPEED_EXP);
 		return speed;
 	}
 	
+	@Override
 	public double getTurnSpeed() {
-		double turnSpeed = DriverStationMap.xbox.leftStick.getX();
-		if (turnSpeed < 0) {
-			turnSpeed = Math.pow(turnSpeed, DriverStationMap.TURN_EXP);
-			turnSpeed *= -DriverStationMap.TURN_GAIN;
-		} else {
-			turnSpeed = Math.pow(turnSpeed, DriverStationMap.TURN_EXP);
-			turnSpeed *= DriverStationMap.TURN_GAIN;
-		}
+		double rawTurnSpeed = RobotMap.HumanInput.Driver.xbox.leftStick.getX();
+		double turnSpeed = scaleGain(rawTurnSpeed, RobotMap.Constant.HumanInput.TURN_GAIN, RobotMap.Constant.HumanInput.TURN_EXP);
 		return turnSpeed;
 	}
 }

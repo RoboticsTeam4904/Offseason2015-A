@@ -31,7 +31,6 @@ public class Robot extends CommandRobotBase {
 	double Constant_D;
 	// Even static objects need initializers
 	RobotMap map = new RobotMap();
-	DriverStationMap dsMap = new DriverStationMap();
 	OffseasonLEDs leds = new OffseasonLEDs(0x600);
 	
 	/**
@@ -42,7 +41,7 @@ public class Robot extends CommandRobotBase {
 		super.robotInit(new PressureValveClosedTest(new Compressor(0), 2.0, 2.0));
 		System.out.println("CommandRobotBase init complete");
 		// Configure autonomous command chooser
-		autoChooser.addDefault(new ChassisIdle(RobotMap.chassis));
+		autoChooser.addDefault(new ChassisIdle(RobotMap.Component.chassis));
 		// Configure driver command chooser
 		driverChooser.addObject(new NathanGain());
 		driverChooser.addDefault(new Nathan());
@@ -83,7 +82,7 @@ public class Robot extends CommandRobotBase {
 			autonomousCommand.cancel();
 		}
 		driverChooser.getSelected().bindCommands();
-		teleopCommand = new ChassisMove(RobotMap.chassis, driverChooser.getSelected(), DriverStationMap.X_SPEED_SCALE, DriverStationMap.Y_SPEED_SCALE, DriverStationMap.TURN_SPEED_SCALE);
+		teleopCommand = new ChassisMove(RobotMap.Component.chassis, driverChooser.getSelected(), RobotMap.Constant.HumanInput.X_SPEED_SCALE, RobotMap.Constant.HumanInput.Y_SPEED_SCALE, RobotMap.Constant.HumanInput.TURN_SPEED_SCALE);
 		teleopCommand.start();
 		LogKitten.setDefaultPrintLevel(LogKitten.LEVEL_WARN);
 		Constant_P = SmartDashboard.getNumber("P", 0.0);

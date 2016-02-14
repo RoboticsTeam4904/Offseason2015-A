@@ -1,7 +1,6 @@
 package org.usfirst.frc4904.robot.humaninput.drivers;
 
 
-import org.usfirst.frc4904.robot.DriverStationMap;
 import org.usfirst.frc4904.robot.RobotMap;
 import org.usfirst.frc4904.standard.commands.chassis.ChassisShift;
 import org.usfirst.frc4904.standard.humaninput.Driver;
@@ -13,8 +12,8 @@ public class PureStick extends Driver {
 	}
 	
 	public void bindCommands() {
-		DriverStationMap.stick.button1.whenPressed(new ChassisShift(RobotMap.chassis.getShifter(), SolenoidShifters.ShiftState.UP));
-		DriverStationMap.stick.button2.whenPressed(new ChassisShift(RobotMap.chassis.getShifter(), SolenoidShifters.ShiftState.DOWN));
+		RobotMap.HumanInput.Operator.stick.button1.whenPressed(new ChassisShift(RobotMap.Component.chassis.getShifter(), SolenoidShifters.ShiftState.UP));
+		RobotMap.HumanInput.Operator.stick.button2.whenPressed(new ChassisShift(RobotMap.Component.chassis.getShifter(), SolenoidShifters.ShiftState.DOWN));
 	}
 	
 	public double getX() {
@@ -22,10 +21,10 @@ public class PureStick extends Driver {
 	}
 	
 	public double getY() {
-		return DriverStationMap.stick.getY();
+		return RobotMap.HumanInput.Operator.stick.getY();
 	}
 	
 	public double getTurnSpeed() {
-		return DriverStationMap.stick.getX();
+		return RobotMap.HumanInput.Operator.stick.getX();
 	}
 }

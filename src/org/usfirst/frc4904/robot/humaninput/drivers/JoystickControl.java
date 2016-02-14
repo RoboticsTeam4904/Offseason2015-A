@@ -1,7 +1,6 @@
 package org.usfirst.frc4904.robot.humaninput.drivers;
 
 
-import org.usfirst.frc4904.robot.DriverStationMap;
 import org.usfirst.frc4904.robot.RobotMap;
 import org.usfirst.frc4904.standard.commands.Kill;
 import org.usfirst.frc4904.standard.commands.chassis.ChassisIdle;
@@ -15,9 +14,9 @@ public class JoystickControl extends Driver {
 	}
 	
 	public void bindCommands() {
-		DriverStationMap.xbox.back.whenPressed(new Kill(new ChassisIdle(RobotMap.chassis)));
-		DriverStationMap.xbox.rb.whenPressed(new ChassisShift(RobotMap.chassis.getShifter(), SolenoidShifters.ShiftState.DOWN));
-		DriverStationMap.xbox.lb.whenPressed(new ChassisShift(RobotMap.chassis.getShifter(), SolenoidShifters.ShiftState.UP));
+		RobotMap.HumanInput.Driver.xbox.back.whenPressed(new Kill(new ChassisIdle(RobotMap.Component.chassis)));
+		RobotMap.HumanInput.Driver.xbox.rb.whenPressed(new ChassisShift(RobotMap.Component.chassis.getShifter(), SolenoidShifters.ShiftState.DOWN));
+		RobotMap.HumanInput.Driver.xbox.lb.whenPressed(new ChassisShift(RobotMap.Component.chassis.getShifter(), SolenoidShifters.ShiftState.UP));
 	}
 	
 	public double getX() {
@@ -25,10 +24,10 @@ public class JoystickControl extends Driver {
 	}
 	
 	public double getY() {
-		return DriverStationMap.xbox.leftStick.getY();
+		return RobotMap.HumanInput.Driver.xbox.leftStick.getY();
 	}
 	
 	public double getTurnSpeed() {
-		return DriverStationMap.xbox.rightStick.getX();
+		return RobotMap.HumanInput.Driver.xbox.rightStick.getX();
 	}
 }
