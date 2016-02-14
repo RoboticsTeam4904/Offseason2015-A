@@ -85,7 +85,7 @@ public class Robot extends CommandRobotBase {
 		RobotMap.Constant.Chassis.P = SmartDashboard.getNumber("P", 0.0);
 		RobotMap.Constant.Chassis.I = SmartDashboard.getNumber("I", 0.0);
 		RobotMap.Constant.Chassis.D = SmartDashboard.getNumber("D", 0.0);
-		teleopCommand = new ChassisMove(RobotMap.Component.chassis, new PIDChassisController(driverChooser.getSelected(), RobotMap.Constant.Chassis.P, RobotMap.Constant.Chassis.I, RobotMap.Constant.Chassis.D, RobotMap.Constant.Chassis.maxDegreesPerSecond), RobotMap.Constant.HumanInput.X_SPEED_SCALE, RobotMap.Constant.HumanInput.Y_SPEED_SCALE, RobotMap.Constant.HumanInput.TURN_SPEED_SCALE);
+		teleopCommand = new ChassisMove(RobotMap.Component.chassis, new PIDChassisController(driverChooser.getSelected(), RobotMap.Component.ahrs, RobotMap.Constant.Chassis.P, RobotMap.Constant.Chassis.I, RobotMap.Constant.Chassis.D, RobotMap.Constant.Chassis.maxDegreesPerSecond), RobotMap.Constant.HumanInput.X_SPEED_SCALE, RobotMap.Constant.HumanInput.Y_SPEED_SCALE, RobotMap.Constant.HumanInput.TURN_SPEED_SCALE);
 		teleopCommand.start();
 		LogKitten.setDefaultPrintLevel(LogKitten.LEVEL_WARN);
 		leds.setColor(128, 0, 0);
