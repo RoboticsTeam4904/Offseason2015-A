@@ -7,12 +7,12 @@ import org.usfirst.frc4904.robot.humaninput.drivers.Nathan;
 import org.usfirst.frc4904.robot.humaninput.drivers.NathanGain;
 import org.usfirst.frc4904.robot.humaninput.drivers.PureStick;
 import org.usfirst.frc4904.robot.leds.OffseasonLEDs;
-import org.usfirst.frc4904.robot.subsystems.chassis.TankDriveShiftingPID;
 import org.usfirst.frc4904.standard.CommandRobotBase;
 import org.usfirst.frc4904.standard.LogKitten;
 import org.usfirst.frc4904.standard.commands.chassis.ChassisIdle;
 import org.usfirst.frc4904.standard.commands.chassis.ChassisMove;
 import org.usfirst.frc4904.standard.commands.healthchecks.PressureValveClosedTest;
+import org.usfirst.frc4904.standard.custom.PIDChassisController;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
@@ -82,13 +82,12 @@ public class Robot extends CommandRobotBase {
 			autonomousCommand.cancel();
 		}
 		driverChooser.getSelected().bindCommands();
-		teleopCommand = new ChassisMove(RobotMap.Component.chassis, driverChooser.getSelected(), RobotMap.Constant.HumanInput.X_SPEED_SCALE, RobotMap.Constant.HumanInput.Y_SPEED_SCALE, RobotMap.Constant.HumanInput.TURN_SPEED_SCALE);
+		RobotMap.Constant.Chassis.P = SmartDashboard.getNumber("P", 0.0);
+		RobotMap.Constant.Chassis.I = SmartDashboard.getNumber("I", 0.0);
+		RobotMap.Constant.Chassis.D = SmartDashboard.getNumber("D", 0.0);
+		teleopCommand = new ChassisMove(RobotMap.Component.chassis, new PIDChassisController(driverChooser.getSelected(), RobotMap.Constant.Chassis.P, RobotMap.Constant.Chassis.I, RobotMap.Constant.Chassis.D, RobotMap.Constant.Chassis.maxDegreesPerSecond), RobotMap.Constant.HumanInput.X_SPEED_SCALE, RobotMap.Constant.HumanInput.Y_SPEED_SCALE, RobotMap.Constant.HumanInput.TURN_SPEED_SCALE);
 		teleopCommand.start();
 		LogKitten.setDefaultPrintLevel(LogKitten.LEVEL_WARN);
-		Constant_P = SmartDashboard.getNumber("P", 0.0);
-		Constant_I = SmartDashboard.getNumber("I", 0.0);
-		Constant_D = SmartDashboard.getNumber("D", 0.0);
-		TankDriveShiftingPID.pid.setPID(Constant_P, Constant_I, Constant_D);
 		leds.setColor(128, 0, 0);
 	}
 	

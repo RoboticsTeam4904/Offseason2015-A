@@ -1,11 +1,11 @@
 package org.usfirst.frc4904.robot;
 
 
-import org.usfirst.frc4904.robot.subsystems.chassis.TankDriveShiftingPID;
 import org.usfirst.frc4904.standard.custom.controllers.CustomJoystick;
 import org.usfirst.frc4904.standard.custom.controllers.CustomXbox;
 import org.usfirst.frc4904.standard.custom.sensors.PDP;
 import org.usfirst.frc4904.standard.subsystems.chassis.SolenoidShifters;
+import org.usfirst.frc4904.standard.subsystems.chassis.TankDriveShifting;
 import org.usfirst.frc4904.standard.subsystems.motor.Motor;
 import org.usfirst.frc4904.standard.subsystems.motor.speedmodifiers.AccelerationCap;
 import edu.wpi.first.wpilibj.CANTalon;
@@ -46,9 +46,9 @@ public class RobotMap {
 		}
 		
 		public static class Chassis {
-			public static final double P = 3;
-			public static final double I = 0;
-			public static final double D = 0;
+			public static double P = 3;
+			public static double I = 0;
+			public static double D = 0;
 			public static final double maxDegreesPerSecond = 250;
 		}
 	}
@@ -59,7 +59,7 @@ public class RobotMap {
 		public static Solenoid solenoidUp;
 		public static Solenoid solenoidDown;
 		public static SolenoidShifters shifter;
-		public static TankDriveShiftingPID chassis;
+		public static TankDriveShifting chassis;
 		public static PDP pdp;
 	}
 	
@@ -80,7 +80,7 @@ public class RobotMap {
 		Component.shifter = new SolenoidShifters(Component.solenoidUp, Component.solenoidDown, Component.solenoidUp, Component.solenoidDown);
 		Component.leftWheel = new Motor("LeftWheel", false, new AccelerationCap(Component.pdp), new CANTalon(Port.Motors.CAN.leftDriveA), new CANTalon(Port.Motors.CAN.leftDriveB));
 		Component.rightWheel = new Motor("RightWheel", true, new AccelerationCap(Component.pdp), new CANTalon(Port.Motors.CAN.rightDriveA), new CANTalon(Port.Motors.CAN.rightDriveB));
-		Component.chassis = new TankDriveShiftingPID("OffseasonChassis", Component.leftWheel, Component.rightWheel, Component.shifter, Constant.Chassis.P, Constant.Chassis.I, Constant.Chassis.D, Constant.Chassis.maxDegreesPerSecond);
+		Component.chassis = new TankDriveShifting("OffseasonChassis", Component.leftWheel, Component.rightWheel, Component.shifter);
 		HumanInput.Driver.xbox = new CustomXbox(Port.HumanInput.xboxController);
 		HumanInput.Operator.stick = new CustomJoystick(Port.HumanInput.joystick);
 	}
