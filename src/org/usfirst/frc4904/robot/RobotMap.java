@@ -9,7 +9,6 @@ import org.usfirst.frc4904.standard.subsystems.chassis.TankDriveShifting;
 import org.usfirst.frc4904.standard.subsystems.motor.Motor;
 import org.usfirst.frc4904.standard.subsystems.motor.speedmodifiers.AccelerationCap;
 import edu.wpi.first.wpilibj.CANTalon;
-import edu.wpi.first.wpilibj.Solenoid;
 
 public class RobotMap {
 	public static class Port {
@@ -49,8 +48,6 @@ public class RobotMap {
 	public static class Component {
 		public static Motor leftWheel;
 		public static Motor rightWheel;
-		public static Solenoid solenoidUp;
-		public static Solenoid solenoidDown;
 		public static SolenoidShifters shifter;
 		public static TankDriveShifting chassis;
 		public static PDP pdp;
@@ -68,9 +65,7 @@ public class RobotMap {
 	
 	public RobotMap() {
 		Component.pdp = new PDP();
-		Component.solenoidUp = new Solenoid(Port.Pneumatics.solenoidUp);
-		Component.solenoidDown = new Solenoid(Port.Pneumatics.solenoidDown);
-		Component.shifter = new SolenoidShifters(Component.solenoidUp, Component.solenoidDown, Component.solenoidUp, Component.solenoidDown);
+		Component.shifter = new SolenoidShifters(Port.Pneumatics.solenoidUp, Port.Pneumatics.solenoidDown);
 		Component.leftWheel = new Motor("LeftWheel", false, new AccelerationCap(Component.pdp), new CANTalon(Port.Motors.CAN.leftDriveA), new CANTalon(Port.Motors.CAN.leftDriveB));
 		Component.rightWheel = new Motor("RightWheel", true, new AccelerationCap(Component.pdp), new CANTalon(Port.Motors.CAN.rightDriveA), new CANTalon(Port.Motors.CAN.rightDriveB));
 		Component.chassis = new TankDriveShifting("OffseasonChassis", Component.leftWheel, Component.rightWheel, Component.shifter);
