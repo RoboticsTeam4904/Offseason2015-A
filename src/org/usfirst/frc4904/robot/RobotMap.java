@@ -47,7 +47,7 @@ public class RobotMap {
 		}
 		
 		public static class Chassis {
-			public static double P = 0;
+			public static double P = 0;// use 0.0055 as the first constant, it would be the "Ideal" value
 			public static double I = 0;
 			public static double D = 0;
 			public static final double maxDegreesPerSecond = 250;
