@@ -36,7 +36,7 @@ public class RobotMap {
 		public static class HumanInput {
 			public static final double X_SPEED_SCALE = 1;
 			public static final double Y_SPEED_SCALE = 1;
-			public static final double TURN_SPEED_SCALE = -1;
+			public static final double TURN_SPEED_SCALE = 1;
 			public static final double XBOX_MINIMUM_THRESHOLD = 0.1;
 			public static final double SPEED_GAIN = 1;
 			public static final double SPEED_EXP = 2;
