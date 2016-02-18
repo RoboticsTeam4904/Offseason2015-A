@@ -25,9 +25,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * directory.
  */
 public class Robot extends CommandRobotBase {
-	double Constant_P;
-	double Constant_I;
-	double Constant_D;
 	// Even static objects need initializers
 	RobotMap map = new RobotMap();
 	OffseasonLEDs leds = new OffseasonLEDs(0x600);
