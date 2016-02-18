@@ -36,10 +36,10 @@ public class RobotMap {
 	
 	public static class Constant {
 		public static class HumanInput {
-			public static final double X_SPEED_SCALE = 1;
-			public static final double Y_SPEED_SCALE = 1;
+			public static final double X_SPEED_SCALE = -1;
+			public static final double Y_SPEED_SCALE = -1;
 			public static final double TURN_SPEED_SCALE = 1;
-			public static final double XBOX_MINIMUM_THRESHOLD = 0.1;
+			public static final double XBOX_MINIMUM_THRESHOLD = 0.2;
 			public static final double SPEED_GAIN = 1;
 			public static final double SPEED_EXP = 2;
 			public static final double TURN_GAIN = 1;
@@ -82,5 +82,6 @@ public class RobotMap {
 		HumanInput.Driver.xbox = new CustomXbox(Port.HumanInput.xboxController);
 		HumanInput.Operator.stick = new CustomJoystick(Port.HumanInput.joystick);
 		Component.ahrs = new NavX(SerialPort.Port.kMXP);
+		HumanInput.Driver.xbox.setDeadZone(Constant.HumanInput.XBOX_MINIMUM_THRESHOLD);
 	}
 }
