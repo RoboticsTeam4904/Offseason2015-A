@@ -5,6 +5,6 @@
 	<classpathentry kind="var" path="JRE_LIB"/>
 	<classpathentry kind="lib" path="lib/navXLibrary/navx_frc.jar" sourcepath="lib/navXLibrary/navx_frc-sources.jar"/>
 	<classpathentry kind="var" path="networktables" sourcepath="networktables.sources"/>
-	<classpathentry kind="var" path="wpilib" sourcepath="/navx_frc-sources"/>
+	<classpathentry kind="var" path="wpilib" sourcepath="/wpilib.sources"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
