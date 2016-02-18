@@ -60,7 +60,7 @@ public class RobotMap {
 		public static SolenoidShifters shifter;
 		public static TankDriveShifting chassis;
 		public static PDP pdp;
-		public static NavX ahrs;
+		public static NavX navx;
 	}
 	
 	public static class HumanInput {
@@ -81,7 +81,7 @@ public class RobotMap {
 		Component.chassis = new TankDriveShifting("OffseasonChassis", Component.leftWheel, Component.rightWheel, Component.shifter);
 		HumanInput.Driver.xbox = new CustomXbox(Port.HumanInput.xboxController);
 		HumanInput.Operator.stick = new CustomJoystick(Port.HumanInput.joystick);
-		Component.ahrs = new NavX(SerialPort.Port.kMXP);
+		Component.navx = new NavX(SerialPort.Port.kMXP);
 		HumanInput.Driver.xbox.setDeadZone(Constant.HumanInput.XBOX_MINIMUM_THRESHOLD);
 	}
 }
