@@ -51,9 +51,9 @@ public class Robot extends CommandRobotBase {
 		// Display choosers on SmartDashboard
 		displayChoosers();
 		SmartDashboard.putData(Scheduler.getInstance());
-		SmartDashboard.putNumber("P", 0.0);
-		SmartDashboard.putNumber("I", 0.0);
-		SmartDashboard.putNumber("D", 0.0);
+		SmartDashboard.putNumber("P", 0.02);
+		SmartDashboard.putNumber("I", 0.001);
+		SmartDashboard.putNumber("D", 0.3);
 		LogKitten.setDefaultPrintLevel(LogKitten.LEVEL_DEBUG);
 		LogKitten.setDefaultDSLevel(LogKitten.LEVEL_DEBUG);
 		LogKitten.setPrintMute(true);
@@ -82,9 +82,9 @@ public class Robot extends CommandRobotBase {
 			autonomousCommand.cancel();
 		}
 		driverChooser.getSelected().bindCommands();
-		RobotMap.Constant.Chassis.P = SmartDashboard.getNumber("P", 0.0);
-		RobotMap.Constant.Chassis.I = SmartDashboard.getNumber("I", 0.0);
-		RobotMap.Constant.Chassis.D = SmartDashboard.getNumber("D", 0.0);
+		RobotMap.Constant.Chassis.P = SmartDashboard.getNumber("P", 0.02);
+		RobotMap.Constant.Chassis.I = SmartDashboard.getNumber("I", 0.001);
+		RobotMap.Constant.Chassis.D = SmartDashboard.getNumber("D", 0.3);
 		teleopCommand = new ChassisMove(RobotMap.Component.chassis, new PIDChassisController(driverChooser.getSelected(), RobotMap.Component.ahrs, RobotMap.Constant.Chassis.P, RobotMap.Constant.Chassis.I, RobotMap.Constant.Chassis.D, RobotMap.Constant.Chassis.maxDegreesPerSecond), RobotMap.Constant.HumanInput.X_SPEED_SCALE, RobotMap.Constant.HumanInput.Y_SPEED_SCALE, RobotMap.Constant.HumanInput.TURN_SPEED_SCALE);
 		teleopCommand.start();
 		LogKitten.setDefaultPrintLevel(LogKitten.LEVEL_WARN);
