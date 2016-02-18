@@ -14,10 +14,10 @@ public class RobotMap {
 	public static class Port {
 		public static class Motors {
 			public static class CAN {
-				public static int rightDriveA = 1;
-				public static int rightDriveB = 2;
-				public static int leftDriveA = 3;
-				public static int leftDriveB = 4;
+				public static int leftDriveA = 1;
+				public static int leftDriveB = 2;
+				public static int rightDriveA = 3;
+				public static int rightDriveB = 4;
 			}
 		}
 		
@@ -36,7 +36,7 @@ public class RobotMap {
 		public static class HumanInput {
 			public static final double X_SPEED_SCALE = 1;
 			public static final double Y_SPEED_SCALE = 1;
-			public static final double TURN_SPEED_SCALE = 1;
+			public static final double TURN_SPEED_SCALE = -1;
 			public static final double XBOX_MINIMUM_THRESHOLD = 0.1;
 			public static final double SPEED_GAIN = 1;
 			public static final double SPEED_EXP = 2;
