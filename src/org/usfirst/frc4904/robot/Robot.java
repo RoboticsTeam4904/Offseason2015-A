@@ -12,6 +12,7 @@ import org.usfirst.frc4904.standard.commands.chassis.ChassisIdle;
 import org.usfirst.frc4904.standard.commands.chassis.ChassisMove;
 import org.usfirst.frc4904.standard.commands.healthchecks.PressureValveClosedTest;
 import org.usfirst.frc4904.standard.custom.PIDChassisController;
+import org.usfirst.frc4904.standard.custom.motioncontrollers.CustomPIDController;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
@@ -28,11 +29,12 @@ public class Robot extends CommandRobotBase {
 	// Even static objects need initializers
 	RobotMap map = new RobotMap();
 	OffseasonLEDs leds = new OffseasonLEDs(0x600);
-	
+
 	/**
 	 * This function is run when the robot is first started up and should be
 	 * used for any initialization code.
 	 */
+	@Override
 	public void robotInit() {
 		super.robotInit(new PressureValveClosedTest(new Compressor(0), 2.0, 2.0));
 		System.out.println("CommandRobotBase init complete");
@@ -48,39 +50,44 @@ public class Robot extends CommandRobotBase {
 		displayChoosers();
 		SmartDashboard.putData(Scheduler.getInstance());
 	}
-	
+
+	@Override
 	public void disabledPeriodic() {
 		Scheduler.getInstance().run();
 	}
-	
+
+	@Override
 	public void autonomousInit() {
 		// schedule the autonomous command (example)
 		if (autonomousCommand != null) {
 			autonomousCommand.start();
 		}
 	}
-	
+
 	/**
 	 * This function is called periodically during autonomous
 	 */
+	@Override
 	public void autonomousPeriodic() {
 		Scheduler.getInstance().run();
 	}
-	
+
+	@Override
 	public void teleopInit() {
 		if (autonomousCommand != null) {
 			autonomousCommand.cancel();
 		}
 		driverChooser.getSelected().bindCommands();
-		teleopCommand = new ChassisMove(RobotMap.Component.chassis, new PIDChassisController(driverChooser.getSelected(), RobotMap.Component.navx, RobotMap.Constant.Chassis.TURN_P, RobotMap.Constant.Chassis.TURN_I, RobotMap.Constant.Chassis.TURN_D, RobotMap.Constant.Chassis.MAX_DEGREES_PER_SECOND), RobotMap.Constant.HumanInput.X_SPEED_SCALE, RobotMap.Constant.HumanInput.Y_SPEED_SCALE, RobotMap.Constant.HumanInput.TURN_SPEED_SCALE);
+		teleopCommand = new ChassisMove(RobotMap.Component.chassis, new PIDChassisController(driverChooser.getSelected(), RobotMap.Component.navx, new CustomPIDController(RobotMap.Constant.Chassis.TURN_P, RobotMap.Constant.Chassis.TURN_I, RobotMap.Constant.Chassis.TURN_D, RobotMap.Component.navx), RobotMap.Constant.Chassis.MAX_DEGREES_PER_SECOND), RobotMap.Constant.HumanInput.X_SPEED_SCALE, RobotMap.Constant.HumanInput.Y_SPEED_SCALE, RobotMap.Constant.HumanInput.TURN_SPEED_SCALE);
 		teleopCommand.start();
 		leds.setColor(128, 0, 0);
 	}
-	
+
 	/**
 	 * This function is called when the disabled button is hit. You can use it
 	 * to reset subsystems before shutting down.
 	 */
+	@Override
 	public void disabledInit() {
 		super.disabledInit();
 		if (teleopCommand != null) {
@@ -91,19 +98,21 @@ public class Robot extends CommandRobotBase {
 			leds.update();
 		}
 	}
-	
+
 	/**
 	 * This function is called periodically during operator control
 	 */
+	@Override
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
 		leds.setColor(0, (int) (Math.abs(driverChooser.getSelected().getY()) * 128), (int) (128 - Math.abs(driverChooser.getSelected().getY() * 128)));
 		leds.update();
 	}
-	
+
 	/**
 	 * This function is called periodically during test mode
 	 */
+	@Override
 	public void testPeriodic() {
 		LiveWindow.run();
 	}
