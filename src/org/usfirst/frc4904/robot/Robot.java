@@ -21,8 +21,9 @@ import org.usfirst.frc4904.standard.custom.motioncontrollers.CustomPIDController
  * directory.
  */
 public class Robot extends CommandRobotBase {
+	RobotMap map = new RobotMap();
 	OffseasonLEDs leds = new OffseasonLEDs(0x600);
-
+	
 	/**
 	 * This function is run when the robot is first started up and should be
 	 * used for any initialization code.
@@ -38,26 +39,26 @@ public class Robot extends CommandRobotBase {
 		driverChooser.addObject(new PureStick());
 		driverChooser.addObject(new HardMode());
 	}
-
+	
 	@Override
 	public void disabledExecute() {}
-
+	
 	@Override
 	public void autonomousInitialize() {}
-
+	
 	/**
 	 * This function is called periodically during autonomous
 	 */
 	@Override
 	public void autonomousExecute() {}
-
+	
 	@Override
 	public void teleopInitialize() {
 		teleopCommand = new ChassisMove(RobotMap.Component.chassis, new PIDChassisController(driverChooser.getSelected(), RobotMap.Component.navx, new CustomPIDController(RobotMap.Constant.Chassis.TURN_P, RobotMap.Constant.Chassis.TURN_I, RobotMap.Constant.Chassis.TURN_D, RobotMap.Component.navx), RobotMap.Constant.Chassis.MAX_DEGREES_PER_SECOND), RobotMap.Constant.HumanInput.X_SPEED_SCALE, RobotMap.Constant.HumanInput.Y_SPEED_SCALE, RobotMap.Constant.HumanInput.TURN_SPEED_SCALE);
 		teleopCommand.start();
 		leds.setColor(128, 0, 0);
 	}
-
+	
 	/**
 	 * This function is called when the disabled button is hit. You can use it
 	 * to reset subsystems before shutting down.
@@ -69,7 +70,7 @@ public class Robot extends CommandRobotBase {
 			leds.update();
 		}
 	}
-
+	
 	/**
 	 * This function is called periodically during operator control
 	 */
@@ -78,4 +79,10 @@ public class Robot extends CommandRobotBase {
 		leds.setColor(0, (int) (Math.abs(driverChooser.getSelected().getY()) * 128), (int) (128 - Math.abs(driverChooser.getSelected().getY() * 128)));
 		leds.update();
 	}
+
+	@Override
+	public void testInitialize() {}
+
+	@Override
+	public void testExecute() {}
 }

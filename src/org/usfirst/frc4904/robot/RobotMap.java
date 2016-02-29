@@ -73,7 +73,7 @@ public class RobotMap {
 		}
 	}
 
-	static {
+	public RobotMap() {
 		Component.pdp = new PDP();
 		Component.shifter = new SolenoidShifters(Port.Pneumatics.solenoidUp, Port.Pneumatics.solenoidDown);
 		Component.leftWheel = new Motor("LeftWheel", false, new AccelerationCap(Component.pdp), new CANTalon(Port.Motors.CAN.leftDriveA), new CANTalon(Port.Motors.CAN.leftDriveB));
