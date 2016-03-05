@@ -10,13 +10,8 @@ import org.usfirst.frc4904.robot.leds.OffseasonLEDs;
 import org.usfirst.frc4904.standard.CommandRobotBase;
 import org.usfirst.frc4904.standard.commands.chassis.ChassisIdle;
 import org.usfirst.frc4904.standard.commands.chassis.ChassisMove;
-import org.usfirst.frc4904.standard.commands.healthchecks.PressureValveClosedTest;
 import org.usfirst.frc4904.standard.custom.PIDChassisController;
 import org.usfirst.frc4904.standard.custom.motioncontrollers.CustomPIDController;
-import edu.wpi.first.wpilibj.Compressor;
-import edu.wpi.first.wpilibj.command.Scheduler;
-import edu.wpi.first.wpilibj.livewindow.LiveWindow;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -26,18 +21,15 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * directory.
  */
 public class Robot extends CommandRobotBase {
-	// Even static objects need initializers
 	RobotMap map = new RobotMap();
 	OffseasonLEDs leds = new OffseasonLEDs(0x600);
-
+	
 	/**
 	 * This function is run when the robot is first started up and should be
 	 * used for any initialization code.
 	 */
 	@Override
-	public void robotInit() {
-		super.robotInit(new PressureValveClosedTest(new Compressor(0), 2.0, 2.0));
-		System.out.println("CommandRobotBase init complete");
+	public void initialize() {
 		// Configure autonomous command chooser
 		autoChooser.addDefault(new ChassisIdle(RobotMap.Component.chassis));
 		// Configure driver command chooser
@@ -46,53 +38,33 @@ public class Robot extends CommandRobotBase {
 		driverChooser.addObject(new JoystickControl());
 		driverChooser.addObject(new PureStick());
 		driverChooser.addObject(new HardMode());
-		// Display choosers on SmartDashboard
-		displayChoosers();
-		SmartDashboard.putData(Scheduler.getInstance());
 	}
-
+	
 	@Override
-	public void disabledPeriodic() {
-		Scheduler.getInstance().run();
-	}
-
+	public void disabledExecute() {}
+	
 	@Override
-	public void autonomousInit() {
-		// schedule the autonomous command (example)
-		if (autonomousCommand != null) {
-			autonomousCommand.start();
-		}
-	}
+	public void autonomousInitialize() {}
 
 	/**
 	 * This function is called periodically during autonomous
 	 */
 	@Override
-	public void autonomousPeriodic() {
-		Scheduler.getInstance().run();
-	}
-
+	public void autonomousExecute() {}
+	
 	@Override
-	public void teleopInit() {
-		if (autonomousCommand != null) {
-			autonomousCommand.cancel();
-		}
-		driverChooser.getSelected().bindCommands();
+	public void teleopInitialize() {
 		teleopCommand = new ChassisMove(RobotMap.Component.chassis, new PIDChassisController(driverChooser.getSelected(), RobotMap.Component.navx, new CustomPIDController(RobotMap.Constant.Chassis.TURN_P, RobotMap.Constant.Chassis.TURN_I, RobotMap.Constant.Chassis.TURN_D, RobotMap.Component.navx), RobotMap.Constant.Chassis.MAX_DEGREES_PER_SECOND), RobotMap.Constant.HumanInput.X_SPEED_SCALE, RobotMap.Constant.HumanInput.Y_SPEED_SCALE, RobotMap.Constant.HumanInput.TURN_SPEED_SCALE);
 		teleopCommand.start();
 		leds.setColor(128, 0, 0);
 	}
-
+	
 	/**
 	 * This function is called when the disabled button is hit. You can use it
 	 * to reset subsystems before shutting down.
 	 */
 	@Override
-	public void disabledInit() {
-		super.disabledInit();
-		if (teleopCommand != null) {
-			teleopCommand.cancel();
-		}
+	public void disabledInitialize() {
 		leds.setColor(128, 0, 0);
 		for (int i = 0; i < 10; i++) {
 			leds.update();
@@ -103,17 +75,14 @@ public class Robot extends CommandRobotBase {
 	 * This function is called periodically during operator control
 	 */
 	@Override
-	public void teleopPeriodic() {
-		Scheduler.getInstance().run();
+	public void teleopExecute() {
 		leds.setColor(0, (int) (Math.abs(driverChooser.getSelected().getY()) * 128), (int) (128 - Math.abs(driverChooser.getSelected().getY() * 128)));
 		leds.update();
 	}
 
-	/**
-	 * This function is called periodically during test mode
-	 */
 	@Override
-	public void testPeriodic() {
-		LiveWindow.run();
-	}
+	public void testInitialize() {}
+
+	@Override
+	public void testExecute() {}
 }
