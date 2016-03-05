@@ -45,7 +45,7 @@ public class Robot extends CommandRobotBase {
 	
 	@Override
 	public void autonomousInitialize() {}
-	
+
 	/**
 	 * This function is called periodically during autonomous
 	 */
@@ -70,7 +70,7 @@ public class Robot extends CommandRobotBase {
 			leds.update();
 		}
 	}
-	
+
 	/**
 	 * This function is called periodically during operator control
 	 */
