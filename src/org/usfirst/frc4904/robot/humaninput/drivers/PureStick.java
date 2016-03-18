@@ -10,21 +10,31 @@ public class PureStick extends Driver {
 	public PureStick() {
 		super("PureStick");
 	}
-	
+
+	@Override
 	public void bindCommands() {
 		RobotMap.HumanInput.Operator.stick.button1.whenPressed(new ChassisShift(RobotMap.Component.chassis.getShifter(), SolenoidShifters.ShiftState.UP));
 		RobotMap.HumanInput.Operator.stick.button2.whenPressed(new ChassisShift(RobotMap.Component.chassis.getShifter(), SolenoidShifters.ShiftState.DOWN));
 	}
-	
+
+	@Override
 	public double getX() {
 		return 0;
 	}
-	
+
+	@Override
 	public double getY() {
 		return RobotMap.HumanInput.Operator.stick.getY();
 	}
-	
+
+	@Override
 	public double getTurnSpeed() {
 		return RobotMap.HumanInput.Operator.stick.getX();
+	}
+	
+	@Override
+	public boolean finished() {
+		// TODO Auto-generated method stub
+		return false;
 	}
 }
