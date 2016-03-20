@@ -89,14 +89,14 @@ public class Robot extends CommandRobotBase {
 			teleopCommand.cancel();
 			teleopCommand = teleopAlign;
 			teleopCommand.start();
-			LogKitten.v("Auto Align Activated");
+			LogKitten.d("Auto Align Activated", true);
 		}
-		LogKitten.v("Auto Align Status: " + teleopAlign.getController().finished() + "Off Angle: " + RobotMap.Component.cameraIR.getGoalOffAngle(false));
+		LogKitten.d("Auto Align Status: " + teleopAlign.getController().finished() + "Off Angle: " + RobotMap.Component.cameraIR.getGoalOffAngle(false), true);
 		if (((!RobotMap.HumanInput.Driver.xbox.y.get()) || teleopAlign.getController().finished()) && (teleopCommand != teleopNormal)) {
 			teleopCommand.cancel();
 			teleopCommand = teleopNormal;
 			teleopCommand.start();
-			LogKitten.v("Auto Align Deactivated");
+			LogKitten.d("Auto Align Deactivated", true);
 		}
 		leds.setColor(0, (int) (Math.abs(driverChooser.getSelected().getY()) * 128), (int) (128 - Math.abs(driverChooser.getSelected().getY() * 128)));
 		leds.update();
