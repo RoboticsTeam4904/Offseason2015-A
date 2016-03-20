@@ -64,8 +64,8 @@ public class Robot extends CommandRobotBase {
 		teleopNormal = new ChassisMove(RobotMap.Component.chassis, driverChooser.getSelected(), RobotMap.Constant.HumanInput.X_SPEED_SCALE, RobotMap.Constant.HumanInput.Y_SPEED_SCALE, RobotMap.Constant.HumanInput.TURN_SPEED_SCALE);
 		teleopAlign = new ChassisMove(RobotMap.Component.chassis, new PIDOffAngleChassisController(driverChooser.getSelected(), RobotMap.Component.cameraPIDSource, new CustomPIDController(RobotMap.Constant.Component.AlignAngle_P, RobotMap.Constant.Component.AlignAngle_I, RobotMap.Constant.Component.AlignAngle_D, RobotMap.Component.cameraPIDSource), RobotMap.Constant.Component.AlignAngleTolerance), RobotMap.Constant.HumanInput.X_SPEED_SCALE, RobotMap.Constant.HumanInput.Y_SPEED_SCALE, RobotMap.Constant.HumanInput.TURN_SPEED_SCALE);
 		teleopCommand = teleopNormal;
-		teleopCommand.start();
 		leds.setColor(128, 0, 0);
+		LogKitten.d("Teleop Initialize");
 	}
 	
 	/**
@@ -86,16 +86,14 @@ public class Robot extends CommandRobotBase {
 	@Override
 	public void teleopExecute() {
 		if (RobotMap.HumanInput.Driver.xbox.y.get() && (teleopCommand != teleopAlign)) {
-			teleopCommand.cancel();
+			teleopAlign = new ChassisMove(RobotMap.Component.chassis, new PIDOffAngleChassisController(driverChooser.getSelected(), RobotMap.Component.cameraPIDSource, new CustomPIDController(RobotMap.Constant.Component.AlignAngle_P, RobotMap.Constant.Component.AlignAngle_I, RobotMap.Constant.Component.AlignAngle_D, RobotMap.Component.cameraPIDSource), RobotMap.Constant.Component.AlignAngleTolerance), RobotMap.Constant.HumanInput.X_SPEED_SCALE, RobotMap.Constant.HumanInput.Y_SPEED_SCALE, RobotMap.Constant.HumanInput.TURN_SPEED_SCALE);
 			teleopCommand = teleopAlign;
-			teleopCommand.start();
 			LogKitten.d("Auto Align Activated", true);
 		}
-		LogKitten.d("Auto Align Status: " + teleopAlign.getController().finished() + "Off Angle: " + RobotMap.Component.cameraIR.getGoalOffAngle(false), true);
+		LogKitten.d("Auto Align Status: " + teleopAlign.getController().finished() + " Off Angle: " + RobotMap.Component.cameraIR.getGoalOffAngle(false), true);
 		if (((!RobotMap.HumanInput.Driver.xbox.y.get()) || teleopAlign.getController().finished()) && (teleopCommand != teleopNormal)) {
-			teleopCommand.cancel();
+			teleopNormal = new ChassisMove(RobotMap.Component.chassis, driverChooser.getSelected(), RobotMap.Constant.HumanInput.X_SPEED_SCALE, RobotMap.Constant.HumanInput.Y_SPEED_SCALE, RobotMap.Constant.HumanInput.TURN_SPEED_SCALE);
 			teleopCommand = teleopNormal;
-			teleopCommand.start();
 			LogKitten.d("Auto Align Deactivated", true);
 		}
 		leds.setColor(0, (int) (Math.abs(driverChooser.getSelected().getY()) * 128), (int) (128 - Math.abs(driverChooser.getSelected().getY() * 128)));
