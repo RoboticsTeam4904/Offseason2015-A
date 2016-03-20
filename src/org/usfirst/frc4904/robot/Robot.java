@@ -9,6 +9,7 @@ import org.usfirst.frc4904.robot.humaninput.drivers.NathanGain;
 import org.usfirst.frc4904.robot.humaninput.drivers.PureStick;
 import org.usfirst.frc4904.robot.leds.OffseasonLEDs;
 import org.usfirst.frc4904.standard.CommandRobotBase;
+import org.usfirst.frc4904.standard.LogKitten;
 import org.usfirst.frc4904.standard.commands.chassis.ChassisIdle;
 import org.usfirst.frc4904.standard.commands.chassis.ChassisMove;
 import org.usfirst.frc4904.standard.custom.motioncontrollers.CustomPIDController;
@@ -40,6 +41,10 @@ public class Robot extends CommandRobotBase {
 		driverChooser.addObject(new JoystickControl());
 		driverChooser.addObject(new PureStick());
 		driverChooser.addObject(new HardMode());
+		LogKitten.setPrintMute(true);
+		LogKitten.setDefaultLogLevel(LogKitten.LEVEL_DEBUG);
+		LogKitten.setDefaultPrintLevel(LogKitten.LEVEL_DEBUG);
+		LogKitten.setDefaultDSLevel(LogKitten.LEVEL_DEBUG);
 	}
 	
 	@Override
@@ -84,11 +89,14 @@ public class Robot extends CommandRobotBase {
 			teleopCommand.cancel();
 			teleopCommand = teleopAlign;
 			teleopCommand.start();
+			LogKitten.v("Auto Align Activated");
 		}
+		LogKitten.v("Auto Align Status: " + teleopAlign.getController().finished() + "Off Angle: " + RobotMap.Component.cameraIR.getGoalOffAngle(false));
 		if (((!RobotMap.HumanInput.Driver.xbox.y.get()) || teleopAlign.getController().finished()) && (teleopCommand != teleopNormal)) {
 			teleopCommand.cancel();
 			teleopCommand = teleopNormal;
 			teleopCommand.start();
+			LogKitten.v("Auto Align Deactivated");
 		}
 		leds.setColor(0, (int) (Math.abs(driverChooser.getSelected().getY()) * 128), (int) (128 - Math.abs(driverChooser.getSelected().getY() * 128)));
 		leds.update();
