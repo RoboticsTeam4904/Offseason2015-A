@@ -14,7 +14,7 @@ public class PIDOffAngleChassisController implements ChassisController {
 	protected MotionController motionController;
 	protected boolean finished;
 	protected double tolerance;
-	
+
 	public PIDOffAngleChassisController(ChassisController controller, CameraPIDSource camera, MotionController motionController, double tolerance) {
 		this.controller = controller;
 		this.tolerance = tolerance;
@@ -30,7 +30,7 @@ public class PIDOffAngleChassisController implements ChassisController {
 		targetAngle = 0;
 		finished = false;
 	}
-	
+
 	public void reset() {
 		targetAngle = 0;
 		lastUpdate = System.currentTimeMillis() / 1000.0;
@@ -38,17 +38,17 @@ public class PIDOffAngleChassisController implements ChassisController {
 		motionController.reset();
 		motionController.enable();
 	}
-	
+
 	@Override
 	public double getX() {
 		return 0;
 	}
-	
+
 	@Override
 	public double getY() {
 		return 0;
 	}
-	
+
 	@Override
 	public double getTurnSpeed() {
 		motionController.setSetpoint(targetAngle);
@@ -58,8 +58,7 @@ public class PIDOffAngleChassisController implements ChassisController {
 		}
 		return motionController.get();
 	}
-	
-	@Override
+
 	public boolean finished() {
 		return finished;
 	}

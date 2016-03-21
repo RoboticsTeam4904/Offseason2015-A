@@ -28,22 +28,21 @@ public class HardMode extends Driver {
 	@Override
 	public double getY() {
 		if (RobotMap.HumanInput.Driver.xbox.x.get()) {
-			return RobotMap.HumanInput.Driver.xbox.lt.getX() + RobotMap.HumanInput.Driver.xbox.rt.getX() - 1;
-		} else {
-			return 0;
-		}
-	}
-
-	@Override
-	public double getTurnSpeed() {
-		if (RobotMap.HumanInput.Driver.xbox.x.get()) {
-			return RobotMap.HumanInput.Driver.xbox.lt.getX() - RobotMap.HumanInput.Driver.xbox.rt.getX();
+			return (RobotMap.HumanInput.Driver.xbox.lt.getX() + RobotMap.HumanInput.Driver.xbox.rt.getX() - 1) * RobotMap.Constant.HumanInput.Y_SPEED_SCALE;
 		} else {
 			return 0;
 		}
 	}
 	
 	@Override
+	public double getTurnSpeed() {
+		if (RobotMap.HumanInput.Driver.xbox.x.get()) {
+			return (RobotMap.HumanInput.Driver.xbox.lt.getX() - RobotMap.HumanInput.Driver.xbox.rt.getX()) * RobotMap.Constant.HumanInput.TURN_SPEED_SCALE;
+		} else {
+			return 0;
+		}
+	}
+
 	public boolean finished() {
 		// TODO Auto-generated method stub
 		return false;
