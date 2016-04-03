@@ -27,15 +27,14 @@ public class JoystickControl extends Driver {
 
 	@Override
 	public double getY() {
-		return RobotMap.HumanInput.Driver.xbox.leftStick.getY();
+		return RobotMap.HumanInput.Driver.xbox.leftStick.getY() * RobotMap.Constant.HumanInput.Y_SPEED_SCALE;
 	}
 
 	@Override
 	public double getTurnSpeed() {
-		return RobotMap.HumanInput.Driver.xbox.rightStick.getX();
+		return RobotMap.HumanInput.Driver.xbox.rightStick.getX() * RobotMap.Constant.HumanInput.TURN_SPEED_SCALE;
 	}
-	
-	@Override
+
 	public boolean finished() {
 		// TODO Auto-generated method stub
 		return false;

@@ -26,7 +26,7 @@ public class Robot extends CommandRobotBase {
 	OffseasonLEDs leds = new OffseasonLEDs(0x600);
 	private ChassisMove teleopNormal;
 	private ChassisMove teleopAlign;
-
+	
 	/**
 	 * This function is run when the robot is first started up and should be
 	 * used for any initialization code.
@@ -46,29 +46,29 @@ public class Robot extends CommandRobotBase {
 		LogKitten.setDefaultPrintLevel(LogKitten.LEVEL_DEBUG);
 		LogKitten.setDefaultDSLevel(LogKitten.LEVEL_DEBUG);
 	}
-
+	
 	@Override
 	public void disabledExecute() {}
-
+	
 	@Override
 	public void autonomousInitialize() {}
-	
+
 	/**
 	 * This function is called periodically during autonomous
 	 */
 	@Override
 	public void autonomousExecute() {}
-
+	
 	@Override
 	public void teleopInitialize() {
-		teleopNormal = new ChassisMove(RobotMap.Component.chassis, driverChooser.getSelected(), RobotMap.Constant.HumanInput.X_SPEED_SCALE, RobotMap.Constant.HumanInput.Y_SPEED_SCALE, RobotMap.Constant.HumanInput.TURN_SPEED_SCALE);
-		teleopAlign = new ChassisMove(RobotMap.Component.chassis, new PIDOffAngleChassisController(driverChooser.getSelected(), RobotMap.Component.cameraPIDSource, new CustomPIDController(RobotMap.Constant.Component.AlignAngle_P, RobotMap.Constant.Component.AlignAngle_I, RobotMap.Constant.Component.AlignAngle_D, RobotMap.Component.cameraPIDSource), RobotMap.Constant.Component.AlignAngleTolerance), RobotMap.Constant.HumanInput.X_SPEED_SCALE, RobotMap.Constant.HumanInput.Y_SPEED_SCALE, RobotMap.Constant.HumanInput.TURN_SPEED_SCALE);
+		teleopNormal = new ChassisMove(RobotMap.Component.chassis, driverChooser.getSelected());
+		teleopAlign = new ChassisMove(RobotMap.Component.chassis, new PIDOffAngleChassisController(driverChooser.getSelected(), RobotMap.Component.cameraPIDSource, new CustomPIDController(RobotMap.Constant.Component.AlignAngle_P, RobotMap.Constant.Component.AlignAngle_I, RobotMap.Constant.Component.AlignAngle_D, RobotMap.Component.cameraPIDSource), RobotMap.Constant.Component.AlignAngleTolerance));
 		teleopCommand = teleopNormal;
 		teleopCommand.start();
 		leds.setColor(128, 0, 0);
 		LogKitten.d("Teleop Initialize", true);
 	}
-
+	
 	/**
 	 * This function is called when the disabled button is hit. You can use it
 	 * to reset subsystems before shutting down.
@@ -80,7 +80,7 @@ public class Robot extends CommandRobotBase {
 			leds.update();
 		}
 	}
-	
+
 	/**
 	 * This function is called periodically during operator control
 	 */
@@ -89,7 +89,7 @@ public class Robot extends CommandRobotBase {
 		LogKitten.d("Execute start", true);
 		if (RobotMap.HumanInput.Driver.xbox.y.get() && (teleopCommand != teleopAlign)) {
 			teleopCommand.cancel();
-			teleopAlign = new ChassisMove(RobotMap.Component.chassis, new PIDOffAngleChassisController(driverChooser.getSelected(), RobotMap.Component.cameraPIDSource, new CustomPIDController(RobotMap.Constant.Component.AlignAngle_P, RobotMap.Constant.Component.AlignAngle_I, RobotMap.Constant.Component.AlignAngle_D, RobotMap.Component.cameraPIDSource), RobotMap.Constant.Component.AlignAngleTolerance), RobotMap.Constant.HumanInput.X_SPEED_SCALE, RobotMap.Constant.HumanInput.Y_SPEED_SCALE, RobotMap.Constant.HumanInput.TURN_SPEED_SCALE);
+			teleopAlign = new ChassisMove(RobotMap.Component.chassis, new PIDOffAngleChassisController(driverChooser.getSelected(), RobotMap.Component.cameraPIDSource, new CustomPIDController(RobotMap.Constant.Component.AlignAngle_P, RobotMap.Constant.Component.AlignAngle_I, RobotMap.Constant.Component.AlignAngle_D, RobotMap.Component.cameraPIDSource), RobotMap.Constant.Component.AlignAngleTolerance));
 			teleopCommand = teleopAlign;
 			teleopCommand.start();
 			LogKitten.d("Auto Align Activated", true);
@@ -97,7 +97,7 @@ public class Robot extends CommandRobotBase {
 		LogKitten.d("Auto Align Status: " + teleopAlign.getController().finished() + " Off Angle: " + RobotMap.Component.cameraIR.getGoalOffAngle(false), true);
 		if (((!RobotMap.HumanInput.Driver.xbox.y.get()) || teleopAlign.getController().finished()) && (teleopCommand != teleopNormal)) {
 			teleopCommand.cancel();
-			teleopNormal = new ChassisMove(RobotMap.Component.chassis, driverChooser.getSelected(), RobotMap.Constant.HumanInput.X_SPEED_SCALE, RobotMap.Constant.HumanInput.Y_SPEED_SCALE, RobotMap.Constant.HumanInput.TURN_SPEED_SCALE);
+			teleopNormal = new ChassisMove(RobotMap.Component.chassis, driverChooser.getSelected());
 			teleopCommand = teleopNormal;
 			teleopCommand.start();
 			LogKitten.d("Auto Align Deactivated", true);
@@ -106,10 +106,10 @@ public class Robot extends CommandRobotBase {
 		leds.update();
 		LogKitten.d("Execute end", true);
 	}
-	
+
 	@Override
 	public void testInitialize() {}
-	
+
 	@Override
 	public void testExecute() {}
 }
