@@ -8,7 +8,6 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import org.usfirst.frc4904.robot.RobotMap;
-import org.usfirst.frc4904.robot.subsystems.Camera;
 import org.usfirst.frc4904.standard.LogKitten;
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -41,18 +40,24 @@ public class CameraPoll extends Command {
 		LogKitten.v("Camera is starting to poll...");
 		lastTime = System.currentTimeMillis();
 	}
-	
+	int i = 0;
+
 	@Override
 	protected void execute() {
+		i++;
+		LogKitten.d("CameraPoll execute start " + i, true);
 		double total = System.currentTimeMillis() - lastTime;
 		if (total < CameraPoll.MINIMUM_POLL_BREAK) {
 			return;
 		}
+		LogKitten.d("A" + i, true);
 		try {
 			HttpURLConnection connection = (HttpURLConnection) cameraURL.openConnection();
 			connection.setRequestMethod(RobotMap.Constant.Network.CONNECTION_METHOD_GET);
 			connection.setRequestProperty("UserAgent", "CAMERA-SUBSYSTEM");
+			LogKitten.d("B" + i, true);
 			int responseCode = connection.getResponseCode();
+			LogKitten.d("C" + i + "|" + responseCode, true);
 			LogKitten.v("Camera poll request: " + cameraURL);
 			LogKitten.v("Camera poll response (code): " + responseCode);
 			if (responseCode == 200) {
@@ -79,24 +84,30 @@ public class CameraPoll extends Command {
 					camera.setGoalOffAngle(degreesToTurn);
 					camera.setGoalOffDistance(distanceToMove);
 				} else {
-					LogKitten.e("Got " + cameraVariables.length + " parameters from IR Camera, expected 3");
-					LogKitten.e("Camera Data: " + response);
-					LogKitten.e("Camera Variables: " + cameraVariables);
+					LogKitten.e("Got " + cameraVariables.length + " parameters from IR Camera, expected 3", true);
+					LogKitten.e("Camera Data: " + response, true);
+					LogKitten.e("Camera Variables: " + cameraVariables, true);
 				}
 			} else {
 				camera.setCameraStatus(Camera.CameraStatus.DISCONNECTED);
 				camera.setCameraData(RobotMap.Constant.Network.CONNECTION_ERROR_MESSAGE);
-				LogKitten.e("Could not establish connection to camera using request '" + cameraURL.toString() + "'");
+				LogKitten.d("D" + i, true);
+				LogKitten.e("Could not establish connection to camera using request '" + cameraURL.toString() + "'", true);
 			}
 		}
 		catch (MalformedURLException e) {
 			LogKitten.ex(e);
+			LogKitten.d("E" + i, true);
+			LogKitten.d("MalformedURLException", true);
 		}
 		catch (IOException e) {
-			LogKitten.e("URL is " + cameraURL.toString());
-			LogKitten.ex(e);
+			LogKitten.e("URL is " + cameraURL.toString(), true);
+			LogKitten.ex(e, true);
+			LogKitten.d("F" + i, true);
+			LogKitten.d("IOException", true);
 		}
 		lastTime = System.currentTimeMillis();
+		LogKitten.d("CameraPoll execute end", true);
 	}
 	
 	@Override

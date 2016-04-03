@@ -25,18 +25,18 @@ public class RobotMap {
 				public static int rightDriveB = 4;
 			}
 		}
-
+		
 		public static class Pneumatics {
 			public static int solenoidUp = 7;
 			public static int solenoidDown = 6;
 		}
-
+		
 		public static class HumanInput {
 			public static final int joystick = 0;
 			public static final int xboxController = 1;
 		}
 	}
-
+	
 	public static class Constant {
 		public static class HumanInput {
 			public static final double X_SPEED_SCALE = 1;
@@ -48,24 +48,24 @@ public class RobotMap {
 			public static final double TURN_GAIN = 1;
 			public static final double TURN_EXP = 2;
 		}
-
+		
 		public static class Chassis {
 			public static double TURN_P = 0.02;
 			public static double TURN_I = 0.001;
 			public static double TURN_D = 0.3;
 			public static final double MAX_DEGREES_PER_SECOND = 120;
 		}
-
+		
 		public static class Component {
 			public static double AlignAngle_P = 0;
 			public static double AlignAngle_I = 0;
 			public static double AlignAngle_D = 0;
 			public static double AlignAngleTolerance = 5;
 		}
-
+		
 		public static class Network {
 			public static final String IP_PREFACE = "10.49.4.";
-			public static final String PI_IR_IP = Network.IP_PREFACE + "44";
+			public static final String PI_IR_IP = Network.IP_PREFACE + "99";
 			@Deprecated
 			public static final String PI_VISUAL_IP = Network.IP_PREFACE + "80";
 			public static final int PI_IR_PORT = 9999;
@@ -90,7 +90,7 @@ public class RobotMap {
 			/**
 			 * Autonomous URL destination for the PI IR camera
 			 */
-			public static final String PI_IR_AUTO_PATH = "/autonomous";
+			public static final String PI_IR_AUTO_PATH = "/";
 			/**
 			 * Return this when connnection cannot be established to anything"
 			 */
@@ -109,7 +109,7 @@ public class RobotMap {
 			public static final int PI_IR_STATUS_INDEX_POSITION = 0;
 		}
 	}
-
+	
 	public static class Component {
 		public static Motor leftWheel;
 		public static Motor rightWheel;
@@ -120,17 +120,17 @@ public class RobotMap {
 		public static Camera cameraIR;
 		public static CameraPIDSource cameraPIDSource;
 	}
-
+	
 	public static class HumanInput {
 		public static class Driver {
 			public static CustomXbox xbox;
 		}
-
+		
 		public static class Operator {
 			public static CustomJoystick stick;
 		}
 	}
-
+	
 	public RobotMap() {
 		Component.pdp = new PDP();
 		Component.shifter = new SolenoidShifters(Port.Pneumatics.solenoidUp, Port.Pneumatics.solenoidDown);

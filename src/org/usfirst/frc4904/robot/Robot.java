@@ -66,7 +66,7 @@ public class Robot extends CommandRobotBase {
 		teleopCommand = teleopNormal;
 		teleopCommand.start();
 		leds.setColor(128, 0, 0);
-		LogKitten.d("Teleop Initialize");
+		LogKitten.d("Teleop Initialize", true);
 	}
 
 	/**
@@ -86,6 +86,7 @@ public class Robot extends CommandRobotBase {
 	 */
 	@Override
 	public void teleopExecute() {
+		LogKitten.d("Execute start", true);
 		if (RobotMap.HumanInput.Driver.xbox.y.get() && (teleopCommand != teleopAlign)) {
 			teleopCommand.cancel();
 			teleopAlign = new ChassisMove(RobotMap.Component.chassis, new PIDOffAngleChassisController(driverChooser.getSelected(), RobotMap.Component.cameraPIDSource, new CustomPIDController(RobotMap.Constant.Component.AlignAngle_P, RobotMap.Constant.Component.AlignAngle_I, RobotMap.Constant.Component.AlignAngle_D, RobotMap.Component.cameraPIDSource), RobotMap.Constant.Component.AlignAngleTolerance), RobotMap.Constant.HumanInput.X_SPEED_SCALE, RobotMap.Constant.HumanInput.Y_SPEED_SCALE, RobotMap.Constant.HumanInput.TURN_SPEED_SCALE);
@@ -103,6 +104,7 @@ public class Robot extends CommandRobotBase {
 		}
 		leds.setColor(0, (int) (Math.abs(driverChooser.getSelected().getY()) * 128), (int) (128 - Math.abs(driverChooser.getSelected().getY() * 128)));
 		leds.update();
+		LogKitten.d("Execute end", true);
 	}
 	
 	@Override
