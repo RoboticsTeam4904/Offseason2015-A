@@ -89,6 +89,7 @@ public class RobotMap {
 		Component.leftWheel = new Motor("LeftWheel", false, new AccelerationCap(Component.pdp), new CANTalon(Port.Motors.CAN.leftDriveA), new CANTalon(Port.Motors.CAN.leftDriveB));
 		Component.rightWheel = new Motor("RightWheel", true, new AccelerationCap(Component.pdp), new CANTalon(Port.Motors.CAN.rightDriveA), new CANTalon(Port.Motors.CAN.rightDriveB));
 		Component.leftEncoder = new CANEncoder(Port.CAN.leftEncoder);
+		Component.rightEncoder = new CANEncoder(Port.CAN.rightEncoder);
 		Component.leftEncoder.setDistancePerPulse(Constant.Chassis.WHEEL_CIRCUMFERENCE / Constant.Chassis.TICKS_PER_ENCODER_ROTATION);
 		Component.rightEncoder.setDistancePerPulse(Constant.Chassis.WHEEL_CIRCUMFERENCE / Constant.Chassis.TICKS_PER_ENCODER_ROTATION);
 		Component.chassis = new TankDriveShifting("OffseasonChassis", Component.leftWheel, Component.rightWheel, Component.shifter);
