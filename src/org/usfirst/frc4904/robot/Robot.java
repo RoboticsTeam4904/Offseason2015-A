@@ -7,7 +7,6 @@ import org.usfirst.frc4904.robot.humaninput.drivers.NathanGain;
 import org.usfirst.frc4904.robot.humaninput.drivers.PureStick;
 import org.usfirst.frc4904.robot.leds.OffseasonLEDs;
 import org.usfirst.frc4904.standard.CommandRobotBase;
-import org.usfirst.frc4904.standard.LogKitten;
 import org.usfirst.frc4904.standard.commands.chassis.ChassisIdle;
 import org.usfirst.frc4904.standard.commands.chassis.ChassisMove;
 import org.usfirst.frc4904.standard.custom.PIDChassisController;
@@ -43,10 +42,7 @@ public class Robot extends CommandRobotBase {
 	}
 	
 	@Override
-	public void disabledExecute() {
-		LogKitten.wtf(leftEncoder.get() + "");
-		LogKitten.wtf(rightEncoder.get() + "");
-	}
+	public void disabledExecute() {}
 	
 	@Override
 	public void autonomousInitialize() {}
@@ -81,8 +77,6 @@ public class Robot extends CommandRobotBase {
 	 */
 	@Override
 	public void teleopExecute() {
-		LogKitten.wtf(leftEncoder.get() + "");
-		LogKitten.wtf(rightEncoder.get() + "");
 		leds.setColor(0, (int) (Math.abs(driverChooser.getSelected().getY()) * 128), (int) (128 - Math.abs(driverChooser.getSelected().getY() * 128)));
 		leds.update();
 	}
