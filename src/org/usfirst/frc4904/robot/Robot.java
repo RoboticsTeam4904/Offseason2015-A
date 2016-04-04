@@ -1,17 +1,18 @@
 package org.usfirst.frc4904.robot;
 
 
-import org.usfirst.frc4904.robot.humaninput.drivers.HardMode;
 import org.usfirst.frc4904.robot.humaninput.drivers.JoystickControl;
 import org.usfirst.frc4904.robot.humaninput.drivers.Nathan;
 import org.usfirst.frc4904.robot.humaninput.drivers.NathanGain;
 import org.usfirst.frc4904.robot.humaninput.drivers.PureStick;
 import org.usfirst.frc4904.robot.leds.OffseasonLEDs;
 import org.usfirst.frc4904.standard.CommandRobotBase;
+import org.usfirst.frc4904.standard.LogKitten;
 import org.usfirst.frc4904.standard.commands.chassis.ChassisIdle;
 import org.usfirst.frc4904.standard.commands.chassis.ChassisMove;
 import org.usfirst.frc4904.standard.custom.PIDChassisController;
 import org.usfirst.frc4904.standard.custom.motioncontrollers.CustomPIDController;
+import org.usfirst.frc4904.standard.custom.sensors.CANEncoder;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -23,6 +24,8 @@ import org.usfirst.frc4904.standard.custom.motioncontrollers.CustomPIDController
 public class Robot extends CommandRobotBase {
 	RobotMap map = new RobotMap();
 	OffseasonLEDs leds = new OffseasonLEDs(0x600);
+	CANEncoder leftEncoder = new CANEncoder(0x610);
+	CANEncoder rightEncoder = new CANEncoder(0x611);
 	
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -37,11 +40,13 @@ public class Robot extends CommandRobotBase {
 		driverChooser.addObject(new Nathan());
 		driverChooser.addObject(new JoystickControl());
 		driverChooser.addObject(new PureStick());
-		driverChooser.addObject(new HardMode());
 	}
 	
 	@Override
-	public void disabledExecute() {}
+	public void disabledExecute() {
+		LogKitten.wtf(leftEncoder.get() + "");
+		LogKitten.wtf(rightEncoder.get() + "");
+	}
 	
 	@Override
 	public void autonomousInitialize() {}
@@ -76,6 +81,8 @@ public class Robot extends CommandRobotBase {
 	 */
 	@Override
 	public void teleopExecute() {
+		LogKitten.wtf(leftEncoder.get() + "");
+		LogKitten.wtf(rightEncoder.get() + "");
 		leds.setColor(0, (int) (Math.abs(driverChooser.getSelected().getY()) * 128), (int) (128 - Math.abs(driverChooser.getSelected().getY() * 128)));
 		leds.update();
 	}

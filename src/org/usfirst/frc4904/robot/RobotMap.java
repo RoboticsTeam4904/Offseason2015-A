@@ -3,6 +3,8 @@ package org.usfirst.frc4904.robot;
 
 import org.usfirst.frc4904.standard.custom.controllers.CustomJoystick;
 import org.usfirst.frc4904.standard.custom.controllers.CustomXbox;
+import org.usfirst.frc4904.standard.custom.sensors.CANEncoder;
+import org.usfirst.frc4904.standard.custom.sensors.CustomEncoder;
 import org.usfirst.frc4904.standard.custom.sensors.NavX;
 import org.usfirst.frc4904.standard.custom.sensors.PDP;
 import org.usfirst.frc4904.standard.subsystems.chassis.SolenoidShifters;
@@ -21,6 +23,11 @@ public class RobotMap {
 				public static int rightDriveA = 3;
 				public static int rightDriveB = 4;
 			}
+		}
+		
+		public static class CAN {
+			public static int leftEncoder = 0x610;
+			public static int rightEncoder = 0x611;
 		}
 		
 		public static class Pneumatics {
@@ -50,12 +57,16 @@ public class RobotMap {
 			public static double TURN_I = 0.001;
 			public static double TURN_D = 0.3;
 			public static final double MAX_DEGREES_PER_SECOND = 120;
+			public static final double WHEEL_CIRCUMFERANCE = 3.9;
+			public static final double TICKS_PER_ENCODER_ROTATION = 1024;
 		}
 	}
 	
 	public static class Component {
 		public static Motor leftWheel;
+		public static CustomEncoder leftEncoder;
 		public static Motor rightWheel;
+		public static CustomEncoder rightEncoder;
 		public static SolenoidShifters shifter;
 		public static TankDriveShifting chassis;
 		public static PDP pdp;
@@ -77,6 +88,9 @@ public class RobotMap {
 		Component.shifter = new SolenoidShifters(Port.Pneumatics.solenoidUp, Port.Pneumatics.solenoidDown);
 		Component.leftWheel = new Motor("LeftWheel", false, new AccelerationCap(Component.pdp), new CANTalon(Port.Motors.CAN.leftDriveA), new CANTalon(Port.Motors.CAN.leftDriveB));
 		Component.rightWheel = new Motor("RightWheel", true, new AccelerationCap(Component.pdp), new CANTalon(Port.Motors.CAN.rightDriveA), new CANTalon(Port.Motors.CAN.rightDriveB));
+		Component.leftEncoder = new CANEncoder(Port.CAN.leftEncoder);
+		Component.leftEncoder.setDistancePerPulse(Constant.Chassis.WHEEL_CIRCUMFERANCE / Constant.Chassis.TICKS_PER_ENCODER_ROTATION);
+		Component.rightEncoder.setDistancePerPulse(Constant.Chassis.WHEEL_CIRCUMFERANCE / Constant.Chassis.TICKS_PER_ENCODER_ROTATION);
 		Component.chassis = new TankDriveShifting("OffseasonChassis", Component.leftWheel, Component.rightWheel, Component.shifter);
 		HumanInput.Driver.xbox = new CustomXbox(Port.HumanInput.xboxController);
 		HumanInput.Operator.stick = new CustomJoystick(Port.HumanInput.joystick);
