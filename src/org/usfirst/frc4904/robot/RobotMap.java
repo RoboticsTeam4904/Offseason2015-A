@@ -57,8 +57,8 @@ public class RobotMap {
 			public static double TURN_I = 0.001;
 			public static double TURN_D = 0.3;
 			public static final double MAX_DEGREES_PER_SECOND = 120;
-			public static final double WHEEL_CIRCUMFERENCE = 3.9;
-			public static final double TICKS_PER_ENCODER_ROTATION = 1024;
+			public static final double WHEEL_RADIUS_INCHES = 8;
+			public static final double WHEEL_PULSES_PER_REVOLUTION = 1024;
 		}
 	}
 	
@@ -90,9 +90,10 @@ public class RobotMap {
 		Component.rightWheel = new Motor("RightWheel", true, new AccelerationCap(Component.pdp), new CANTalon(Port.Motors.CAN.rightDriveA), new CANTalon(Port.Motors.CAN.rightDriveB));
 		Component.leftEncoder = new CANEncoder(Port.CAN.leftEncoder);
 		Component.rightEncoder = new CANEncoder(Port.CAN.rightEncoder);
-		Component.leftEncoder.setDistancePerPulse(Constant.Chassis.WHEEL_CIRCUMFERENCE / Constant.Chassis.TICKS_PER_ENCODER_ROTATION);
-		Component.rightEncoder.setDistancePerPulse(Constant.Chassis.WHEEL_CIRCUMFERENCE / Constant.Chassis.TICKS_PER_ENCODER_ROTATION);
 		Component.chassis = new TankDriveShifting("OffseasonChassis", Component.leftWheel, Component.rightWheel, Component.shifter);
+		double inchesPerPulse = 2 * Math.PI * Constant.Chassis.WHEEL_RADIUS_INCHES / Constant.Chassis.WHEEL_PULSES_PER_REVOLUTION;
+		Component.leftEncoder.setDistancePerPulse(inchesPerPulse);
+		Component.rightEncoder.setDistancePerPulse(inchesPerPulse);
 		HumanInput.Driver.xbox = new CustomXbox(Port.HumanInput.xboxController);
 		HumanInput.Operator.stick = new CustomJoystick(Port.HumanInput.joystick);
 		Component.navx = new NavX(SerialPort.Port.kMXP);
