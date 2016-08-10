@@ -1,8 +1,11 @@
 package org.usfirst.frc4904.robot;
 
 
+import org.usfirst.frc4904.robot.leds.OffseasonLEDs;
 import org.usfirst.frc4904.standard.custom.controllers.CustomJoystick;
 import org.usfirst.frc4904.standard.custom.controllers.CustomXbox;
+import org.usfirst.frc4904.standard.custom.sensors.CANEncoder;
+import org.usfirst.frc4904.standard.custom.sensors.CustomEncoder;
 import org.usfirst.frc4904.standard.custom.sensors.NavX;
 import org.usfirst.frc4904.standard.custom.sensors.PDP;
 import org.usfirst.frc4904.standard.subsystems.chassis.SolenoidShifters;
@@ -22,18 +25,25 @@ public class RobotMap {
 				public static int rightDriveB = 4;
 			}
 		}
-		
+
 		public static class Pneumatics {
-			public static int solenoidUp = 7;
-			public static int solenoidDown = 6;
+			public static int solenoidUp = 0;
+			public static int solenoidDown = 1;
 		}
-		
+
 		public static class HumanInput {
 			public static final int joystick = 0;
 			public static final int xboxController = 1;
 		}
+		
+		public static class CAN {
+			public static final int backLeds = 0x600;
+			public static final int frontLeds = 0x601;
+			public static final int leftEncoder = 0x610;
+			public static final int rightEncoder = 0x611;
+		}
 	}
-	
+
 	public static class Constant {
 		public static class HumanInput {
 			public static final double Y_SPEED_SCALE = 1;
@@ -44,7 +54,7 @@ public class RobotMap {
 			public static final double TURN_GAIN = 1;
 			public static final double TURN_EXP = 2;
 		}
-		
+
 		public static class Chassis {
 			public static double TURN_P = 0.02;
 			public static double TURN_I = 0.001;
@@ -52,7 +62,7 @@ public class RobotMap {
 			public static final double MAX_DEGREES_PER_SECOND = 120;
 		}
 	}
-	
+
 	public static class Component {
 		public static Motor leftWheel;
 		public static Motor rightWheel;
@@ -60,18 +70,22 @@ public class RobotMap {
 		public static TankDriveShifting chassis;
 		public static PDP pdp;
 		public static NavX navx;
+		public static OffseasonLEDs backLeds;
+		public static OffseasonLEDs frontLeds;
+		public static CustomEncoder leftEncoder;
+		public static CustomEncoder rightEncoder;
 	}
-	
+
 	public static class HumanInput {
 		public static class Driver {
 			public static CustomXbox xbox;
 		}
-		
+
 		public static class Operator {
 			public static CustomJoystick stick;
 		}
 	}
-	
+
 	public RobotMap() {
 		Component.pdp = new PDP();
 		Component.shifter = new SolenoidShifters(Port.Pneumatics.solenoidUp, Port.Pneumatics.solenoidDown);
@@ -82,5 +96,9 @@ public class RobotMap {
 		HumanInput.Operator.stick = new CustomJoystick(Port.HumanInput.joystick);
 		Component.navx = new NavX(SerialPort.Port.kMXP);
 		HumanInput.Driver.xbox.setDeadZone(Constant.HumanInput.XBOX_MINIMUM_THRESHOLD);
+		Component.backLeds = new OffseasonLEDs(Port.CAN.backLeds);
+		Component.frontLeds = new OffseasonLEDs(Port.CAN.frontLeds);
+		Component.leftEncoder = new CANEncoder("LeftEncoder", Port.CAN.leftEncoder, false);
+		Component.rightEncoder = new CANEncoder("RightEncoder", Port.CAN.rightEncoder, false);
 	}
 }
