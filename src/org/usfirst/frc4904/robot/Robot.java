@@ -66,9 +66,6 @@ public class Robot extends CommandRobotBase {
 	@Override
 	public void disabledInitialize() {
 		leds.setColor(128, 0, 0);
-		for (int i = 0; i < 10; i++) {
-			leds.update();
-		}
 	}
 	
 	/**
@@ -77,7 +74,6 @@ public class Robot extends CommandRobotBase {
 	@Override
 	public void teleopExecute() {
 		leds.setColor(0, (int) (Math.abs(driverChooser.getSelected().getY()) * 128), (int) (128 - Math.abs(driverChooser.getSelected().getY() * 128)));
-		leds.update();
 	}
 	
 	@Override
@@ -85,4 +81,9 @@ public class Robot extends CommandRobotBase {
 	
 	@Override
 	public void testExecute() {}
+
+	@Override
+	public void alwaysExecute() {
+		leds.update();
+	}
 }
