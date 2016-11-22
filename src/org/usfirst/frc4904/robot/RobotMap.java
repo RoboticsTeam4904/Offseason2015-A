@@ -37,8 +37,8 @@ public class RobotMap {
 		}
 		
 		public static class CAN {
-			public static final int backLeds = 0x602;
-			public static final int frontLeds = 0x601;
+			public static final int backLeds = 0x601;
+			public static final int frontLeds = 0x602;
 			public static final int leftEncoder = 0x611;
 			public static final int rightEncoder = 0x610;
 		}
