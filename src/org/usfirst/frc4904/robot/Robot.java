@@ -29,10 +29,12 @@ public class Robot extends CommandRobotBase {
 		// Configure autonomous command chooser
 		autoChooser.addDefault(new ChassisIdle(RobotMap.Component.chassis));
 		// Configure driver command chooser
-		driverChooser.addObject(new NathanGain());
+		driverChooser.addDefault(new NathanGain());
 		driverChooser.addObject(new Nathan());
 		driverChooser.addObject(new JoystickControl());
-		driverChooser.addDefault(new PureStick());
+		driverChooser.addObject(new PureStick());
+		RobotMap.Component.backLeds.disable();
+		RobotMap.Component.frontLeds.disable();
 	}
 	
 	@Override
@@ -51,8 +53,8 @@ public class Robot extends CommandRobotBase {
 	public void teleopInitialize() {
 		teleopCommand = new ChassisMove(RobotMap.Component.chassis, driverChooser.getSelected());
 		teleopCommand.start();
-		RobotMap.Component.backLeds.setColor(96, 0, 0);
-		RobotMap.Component.frontLeds.setColor(96, 0, 0);
+		RobotMap.Component.backLeds.enable();
+		RobotMap.Component.frontLeds.enable();
 	}
 	
 	/**
@@ -61,12 +63,8 @@ public class Robot extends CommandRobotBase {
 	 */
 	@Override
 	public void disabledInitialize() {
-		RobotMap.Component.backLeds.setColor(96, 0, 0);
-		RobotMap.Component.frontLeds.setColor(96, 0, 0);
-		for (int i = 0; i < 10; i++) {
-			RobotMap.Component.backLeds.update();
-			RobotMap.Component.frontLeds.update();
-		}
+		RobotMap.Component.backLeds.disable();
+		RobotMap.Component.frontLeds.disable();
 	}
 	
 	/**
@@ -74,10 +72,8 @@ public class Robot extends CommandRobotBase {
 	 */
 	@Override
 	public void teleopExecute() {
-		RobotMap.Component.backLeds.setColor(0, (int) (Math.abs(driverChooser.getSelected().getY()) * 96), (int) (96 - Math.abs(driverChooser.getSelected().getY() * 96)));
-		RobotMap.Component.frontLeds.setColor(0, (int) (Math.abs(driverChooser.getSelected().getY()) * 96), (int) (96 - Math.abs(driverChooser.getSelected().getY() * 96)));
-		RobotMap.Component.backLeds.update();
-		RobotMap.Component.frontLeds.update();
+		RobotMap.Component.backLeds.setValue((int) (Math.abs(driverChooser.getSelected().getY()) * 96));
+		RobotMap.Component.frontLeds.setValue((int) (Math.abs(driverChooser.getSelected().getY()) * 96));
 		LogKitten.e("" + RobotMap.Component.leftEncoder.get() + " " + RobotMap.Component.rightEncoder.get());
 	}
 	
@@ -86,4 +82,10 @@ public class Robot extends CommandRobotBase {
 	
 	@Override
 	public void testExecute() {}
+	
+	@Override
+	public void alwaysExecute() {
+		RobotMap.Component.backLeds.update();
+		RobotMap.Component.frontLeds.update();
+	}
 }

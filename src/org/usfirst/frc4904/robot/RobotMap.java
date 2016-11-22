@@ -37,10 +37,10 @@ public class RobotMap {
 		}
 		
 		public static class CAN {
-			public static final int backLeds = 0x600;
+			public static final int backLeds = 0x602;
 			public static final int frontLeds = 0x601;
-			public static final int leftEncoder = 0x610;
-			public static final int rightEncoder = 0x611;
+			public static final int leftEncoder = 0x611;
+			public static final int rightEncoder = 0x610;
 		}
 	}
 	
@@ -92,7 +92,7 @@ public class RobotMap {
 		Component.pdp = new PDP();
 		Component.shifter = new SolenoidShifters(Port.Pneumatics.solenoidUp, Port.Pneumatics.solenoidDown);
 		Component.leftWheel = new Motor("LeftWheel", false, new AccelerationCap(Component.pdp), new CANTalon(Port.Motors.CAN.leftDriveA), new CANTalon(Port.Motors.CAN.leftDriveB));
-		Component.rightWheel = new Motor("RightWheel", true, new AccelerationCap(Component.pdp), new CANTalon(Port.Motors.CAN.rightDriveA), new CANTalon(Port.Motors.CAN.rightDriveB));
+		Component.rightWheel = new Motor("RightWheel", false, new AccelerationCap(Component.pdp), new CANTalon(Port.Motors.CAN.rightDriveA), new CANTalon(Port.Motors.CAN.rightDriveB));
 		Component.leftEncoder = new CANEncoder(Port.CAN.leftEncoder);
 		Component.rightEncoder = new CANEncoder(Port.CAN.rightEncoder);
 		double inchesPerPulse = 2 * Math.PI * Constant.Chassis.WHEEL_RADIUS_INCHES / Constant.Chassis.WHEEL_PULSES_PER_REVOLUTION;
