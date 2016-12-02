@@ -14,6 +14,7 @@ import org.usfirst.frc4904.standard.subsystems.motor.Motor;
 import org.usfirst.frc4904.standard.subsystems.motor.speedmodifiers.AccelerationCap;
 import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.SerialPort;
+import edu.wpi.first.wpilibj.VictorSP;
 
 public class RobotMap {
 	public static class Port {
@@ -23,6 +24,10 @@ public class RobotMap {
 				public static int leftDriveB = 2;
 				public static int rightDriveA = 3;
 				public static int rightDriveB = 4;
+			}
+			
+			public static class PWM {
+				public static int turrent = 0;
 			}
 		}
 		
@@ -70,6 +75,7 @@ public class RobotMap {
 		public static CustomEncoder leftEncoder;
 		public static Motor rightWheel;
 		public static CustomEncoder rightEncoder;
+		public static Motor turrentMotor;
 		public static SolenoidShifters shifter;
 		public static TankDriveShifting chassis;
 		public static PDP pdp;
@@ -99,6 +105,7 @@ public class RobotMap {
 		Component.leftEncoder.setDistancePerPulse(inchesPerPulse);
 		Component.rightEncoder.setDistancePerPulse(inchesPerPulse);
 		Component.chassis = new TankDriveShifting("OffseasonChassis", Component.leftWheel, Component.rightWheel, Component.shifter);
+		Component.turrentMotor = new Motor("Turrent", false, new VictorSP(Port.Motors.PWM.turrent));
 		HumanInput.Driver.xbox = new CustomXbox(Port.HumanInput.xboxController);
 		HumanInput.Operator.stick = new CustomJoystick(Port.HumanInput.joystick);
 		Component.navx = new NavX(SerialPort.Port.kMXP);
