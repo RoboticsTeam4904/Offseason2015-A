@@ -6,7 +6,6 @@ import org.usfirst.frc4904.robot.humaninput.drivers.Nathan;
 import org.usfirst.frc4904.robot.humaninput.drivers.NathanGain;
 import org.usfirst.frc4904.robot.humaninput.drivers.PureStick;
 import org.usfirst.frc4904.standard.CommandRobotBase;
-import org.usfirst.frc4904.standard.LogKitten;
 import org.usfirst.frc4904.standard.commands.chassis.ChassisIdle;
 import org.usfirst.frc4904.standard.commands.chassis.ChassisMove;
 import org.usfirst.frc4904.standard.custom.controllers.CustomXbox;
