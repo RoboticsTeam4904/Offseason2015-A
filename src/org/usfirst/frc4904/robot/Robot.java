@@ -6,7 +6,6 @@ import org.usfirst.frc4904.robot.humaninput.drivers.Nathan;
 import org.usfirst.frc4904.robot.humaninput.drivers.NathanGain;
 import org.usfirst.frc4904.robot.humaninput.drivers.PureStick;
 import org.usfirst.frc4904.standard.CommandRobotBase;
-import org.usfirst.frc4904.standard.LogKitten;
 import org.usfirst.frc4904.standard.commands.chassis.ChassisIdle;
 import org.usfirst.frc4904.standard.commands.chassis.ChassisMove;
 
@@ -74,7 +73,6 @@ public class Robot extends CommandRobotBase {
 	public void teleopExecute() {
 		RobotMap.Component.backLeds.setValue((int) (Math.abs(driverChooser.getSelected().getY()) * 96));
 		RobotMap.Component.frontLeds.setValue((int) (Math.abs(driverChooser.getSelected().getY()) * 96));
-		LogKitten.e("" + RobotMap.Component.leftEncoder.get() + " " + RobotMap.Component.rightEncoder.get());
 	}
 	
 	@Override
