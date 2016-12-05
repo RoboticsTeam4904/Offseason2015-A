@@ -8,7 +8,6 @@ import org.usfirst.frc4904.robot.humaninput.drivers.PureStick;
 import org.usfirst.frc4904.standard.CommandRobotBase;
 import org.usfirst.frc4904.standard.commands.chassis.ChassisIdle;
 import org.usfirst.frc4904.standard.commands.chassis.ChassisMove;
-import org.usfirst.frc4904.standard.custom.controllers.CustomXbox;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -74,7 +73,6 @@ public class Robot extends CommandRobotBase {
 	public void teleopExecute() {
 		RobotMap.Component.backLeds.setValue((int) (Math.abs(driverChooser.getSelected().getY()) * 96));
 		RobotMap.Component.frontLeds.setValue((int) (Math.abs(driverChooser.getSelected().getY()) * 96));
-		LogKitten.e("" + RobotMap.HumanInput.Driver.xbox.getAxis(CustomXbox.RIGHT_X_AXIS));
 	}
 	
 	@Override
