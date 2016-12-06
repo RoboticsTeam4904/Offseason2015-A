@@ -2,10 +2,10 @@ package org.usfirst.frc4904.robot.humaninput.drivers;
 
 
 import org.usfirst.frc4904.robot.RobotMap;
+import org.usfirst.frc4904.robot.commands.TurretTurn;
 import org.usfirst.frc4904.standard.commands.Kill;
 import org.usfirst.frc4904.standard.commands.chassis.ChassisIdle;
 import org.usfirst.frc4904.standard.commands.chassis.ChassisShift;
-import org.usfirst.frc4904.standard.commands.motor.MotorControl;
 import org.usfirst.frc4904.standard.custom.controllers.CustomXbox;
 import org.usfirst.frc4904.standard.humaninput.Driver;
 import org.usfirst.frc4904.standard.subsystems.chassis.SolenoidShifters;
@@ -24,7 +24,7 @@ public class NathanGain extends Driver {
 		RobotMap.HumanInput.Driver.xbox.back.whenPressed(new Kill(new ChassisIdle(RobotMap.Component.chassis)));
 		RobotMap.HumanInput.Driver.xbox.a.whenPressed(new ChassisShift(RobotMap.Component.chassis.getShifter(), SolenoidShifters.ShiftState.DOWN));
 		RobotMap.HumanInput.Driver.xbox.b.whenPressed(new ChassisShift(RobotMap.Component.chassis.getShifter(), SolenoidShifters.ShiftState.UP));
-		new MotorControl(RobotMap.Component.turrentMotor, RobotMap.HumanInput.Driver.xbox, CustomXbox.RIGHT_X_AXIS, 0.65).start();
+		new TurretTurn(RobotMap.Component.turrentMotor, RobotMap.HumanInput.Driver.xbox, CustomXbox.RIGHT_X_AXIS).start();
 	}
 	
 	@Override
