@@ -11,11 +11,11 @@ public class TurretTurn extends MotorControl {
 	protected final int TURRET_MAX = 11100;
 	protected final int TURRET_MIN = 0;
 	protected final int SAFETY_MARGIN = 100;
-	
+
 	public TurretTurn(Motor motor, Controller controller, int axis) {
 		super(motor, controller, axis, 0.65);
 	}
-
+	
 	@Override
 	protected void execute() {
 		double desiredSpeed = controller.getAxis(axis) * scale;
