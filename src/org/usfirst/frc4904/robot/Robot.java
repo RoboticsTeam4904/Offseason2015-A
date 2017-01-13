@@ -5,9 +5,12 @@ import org.usfirst.frc4904.robot.humaninput.drivers.JoystickControl;
 import org.usfirst.frc4904.robot.humaninput.drivers.Nathan;
 import org.usfirst.frc4904.robot.humaninput.drivers.NathanGain;
 import org.usfirst.frc4904.robot.humaninput.drivers.PureStick;
+import org.usfirst.frc4904.sovereignty.AligningCamera;
+import org.usfirst.frc4904.sovereignty.GearAlign;
 import org.usfirst.frc4904.standard.CommandRobotBase;
-import org.usfirst.frc4904.standard.commands.chassis.ChassisIdle;
 import org.usfirst.frc4904.standard.commands.chassis.ChassisMove;
+import edu.wpi.first.wpilibj.PIDSourceType;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -18,6 +21,7 @@ import org.usfirst.frc4904.standard.commands.chassis.ChassisMove;
  */
 public class Robot extends CommandRobotBase {
 	RobotMap map = new RobotMap();
+	private final GearAlign gearAlign = new GearAlign(map, new AligningCamera(PIDSourceType.kRate, AligningCamera.TABLE_NAME));
 	
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -26,7 +30,7 @@ public class Robot extends CommandRobotBase {
 	@Override
 	public void initialize() {
 		// Configure autonomous command chooser
-		autoChooser.addDefault(new ChassisIdle(RobotMap.Component.chassis));
+		autoChooser.addDefault(gearAlign);
 		// Configure driver command chooser
 		driverChooser.addDefault(new NathanGain());
 		driverChooser.addObject(new Nathan());
@@ -34,10 +38,19 @@ public class Robot extends CommandRobotBase {
 		driverChooser.addObject(new PureStick());
 		RobotMap.Component.backLeds.disable();
 		RobotMap.Component.frontLeds.disable();
+		SmartDashboard.putNumber(SmartDashboardKey.ALIGN_P.key, RobotMap.Constant.AutonomousMetric.ALIGN_P);
+		SmartDashboard.putNumber(SmartDashboardKey.ALIGN_I.key, RobotMap.Constant.AutonomousMetric.ALIGN_I);
+		SmartDashboard.putNumber(SmartDashboardKey.ALIGN_D.key, RobotMap.Constant.AutonomousMetric.ALIGN_D);
+		SmartDashboard.putNumber(SmartDashboardKey.ALIGN_SETPOINT.key, RobotMap.Constant.AutonomousMetric.ALIGN_SETPOINT);
 	}
 	
 	@Override
-	public void disabledExecute() {}
+	public void disabledExecute() {
+		RobotMap.Constant.AutonomousMetric.ALIGN_P = SmartDashboard.getNumber(SmartDashboardKey.ALIGN_P.key);
+		RobotMap.Constant.AutonomousMetric.ALIGN_I = SmartDashboard.getNumber(SmartDashboardKey.ALIGN_I.key);
+		RobotMap.Constant.AutonomousMetric.ALIGN_D = SmartDashboard.getNumber(SmartDashboardKey.ALIGN_D.key);
+		RobotMap.Constant.AutonomousMetric.ALIGN_SETPOINT = SmartDashboard.getNumber(SmartDashboardKey.ALIGN_SETPOINT.key);
+	}
 	
 	@Override
 	public void autonomousInitialize() {}

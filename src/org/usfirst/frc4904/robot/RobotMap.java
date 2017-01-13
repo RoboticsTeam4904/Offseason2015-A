@@ -63,6 +63,15 @@ public class RobotMap {
 			public static final double WHEEL_RADIUS_INCHES = 8;
 			public static final double WHEEL_PULSES_PER_REVOLUTION = 1024;
 		}
+		
+		public static class AutonomousMetric {
+			public static final double ALIGN_SPEED = 0.3;
+			public static double ALIGN_P = -0.002;
+			public static double ALIGN_I = 0;
+			public static double ALIGN_D = 0.001;
+			public static double ALIGN_SETPOINT = 320;
+			public static final double ALIGN_TOLERANCE = 10;
+		}
 	}
 	
 	public static class Component {
