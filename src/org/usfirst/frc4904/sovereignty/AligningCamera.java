@@ -7,7 +7,7 @@ import edu.wpi.first.wpilibj.networktables.NetworkTable;
 
 public class AligningCamera implements PIDSource {
 	
-	public static final String TABLE_NAME = "SmartDashboard";
+	public static final String TABLE_NAME = "GRIP/myCountoursReport";
 	public static final String FIELD_DEGREES = "centerX";
 	public static final String FIELD_DISTANCE = "centerY";
 	public static final String FIELD_VISIBLE = "visible";
@@ -24,11 +24,25 @@ public class AligningCamera implements PIDSource {
 	}
 	
 	public float getDegrees() {
-		return (float) cameraTable.getNumber(AligningCamera.FIELD_DEGREES, Float.NaN);
+		double[] data = cameraTable.getNumberArray(AligningCamera.FIELD_DEGREES, new double[] {});
+		if (data.length == 2) {
+			return (float) (data[0] + data[1]) / 2;
+		} else if (data.length == 1) {
+			return (float) data[0];
+		} else {
+			return 0.0f;
+		}
 	}
 	
 	public float getDistance() {
-		return (float) cameraTable.getNumber(AligningCamera.FIELD_DISTANCE, Float.NaN);
+		double[] data = cameraTable.getNumberArray(AligningCamera.FIELD_DISTANCE, new double[] {});
+		if (data.length == 2) {
+			return (float) (data[0] + data[1]) / 2;
+		} else if (data.length == 1) {
+			return (float) data[0];
+		} else {
+			return 0.0f;
+		}
 	}
 	
 	public boolean isVisible() {
