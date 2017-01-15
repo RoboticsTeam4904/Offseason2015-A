@@ -1,12 +1,14 @@
 package org.usfirst.frc4904.robot;
 
 
+import java.io.FileWriter;
+import java.io.IOException;
+import org.usfirst.frc4904.robot.commands.ControlAgitate;
 import org.usfirst.frc4904.robot.humaninput.drivers.JoystickControl;
 import org.usfirst.frc4904.robot.humaninput.drivers.Nathan;
 import org.usfirst.frc4904.robot.humaninput.drivers.NathanGain;
 import org.usfirst.frc4904.robot.humaninput.drivers.PureStick;
 import org.usfirst.frc4904.standard.CommandRobotBase;
-import org.usfirst.frc4904.standard.commands.chassis.ChassisIdle;
 import org.usfirst.frc4904.standard.commands.chassis.ChassisMove;
 
 /**
@@ -18,15 +20,17 @@ import org.usfirst.frc4904.standard.commands.chassis.ChassisMove;
  */
 public class Robot extends CommandRobotBase {
 	RobotMap map = new RobotMap();
-	
+	protected ControlAgitate controlAgitate;
+
 	/**
 	 * This function is run when the robot is first started up and should be
 	 * used for any initialization code.
 	 */
 	@Override
 	public void initialize() {
+		controlAgitate = new ControlAgitate(RobotMap.Component.navx);
 		// Configure autonomous command chooser
-		autoChooser.addDefault(new ChassisIdle(RobotMap.Component.chassis));
+		autoChooser.addDefault(new ChassisMove(RobotMap.Component.chassis, controlAgitate));
 		// Configure driver command chooser
 		driverChooser.addDefault(new NathanGain());
 		driverChooser.addObject(new Nathan());
@@ -35,19 +39,19 @@ public class Robot extends CommandRobotBase {
 		RobotMap.Component.backLeds.disable();
 		RobotMap.Component.frontLeds.disable();
 	}
-	
+
 	@Override
 	public void disabledExecute() {}
-	
+
 	@Override
 	public void autonomousInitialize() {}
-	
+
 	/**
 	 * This function is called periodically during autonomous
 	 */
 	@Override
 	public void autonomousExecute() {}
-	
+
 	@Override
 	public void teleopInitialize() {
 		teleopCommand = new ChassisMove(RobotMap.Component.chassis, driverChooser.getSelected());
@@ -55,7 +59,7 @@ public class Robot extends CommandRobotBase {
 		RobotMap.Component.backLeds.enable();
 		RobotMap.Component.frontLeds.enable();
 	}
-	
+
 	/**
 	 * This function is called when the disabled button is hit. You can use it
 	 * to reset subsystems before shutting down.
@@ -65,7 +69,7 @@ public class Robot extends CommandRobotBase {
 		RobotMap.Component.backLeds.disable();
 		RobotMap.Component.frontLeds.disable();
 	}
-	
+
 	/**
 	 * This function is called periodically during operator control
 	 */
@@ -74,13 +78,24 @@ public class Robot extends CommandRobotBase {
 		RobotMap.Component.backLeds.setValue((int) (Math.abs(driverChooser.getSelected().getY()) * 96));
 		RobotMap.Component.frontLeds.setValue((int) (Math.abs(driverChooser.getSelected().getY()) * 96));
 	}
-	
+
 	@Override
-	public void testInitialize() {}
-	
+	public void testInitialize() {
+		try {
+			FileWriter fw = new FileWriter("out.csv");
+			for (ControlAgitate.ControlAgitatePoint p : controlAgitate.pointlist) {
+				fw.write(p.speed + "," + p.sensorValue + "\n");
+			}
+			fw.close();
+		}
+		catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
 	@Override
 	public void testExecute() {}
-	
+
 	@Override
 	public void alwaysExecute() {
 		RobotMap.Component.backLeds.update();
