@@ -5,8 +5,12 @@ import org.usfirst.frc4904.robot.RobotMap;
 import org.usfirst.frc4904.standard.commands.Kill;
 import org.usfirst.frc4904.standard.commands.chassis.ChassisIdle;
 import org.usfirst.frc4904.standard.commands.chassis.ChassisShift;
+import org.usfirst.frc4904.standard.commands.motor.MotorControl;
+import org.usfirst.frc4904.standard.custom.controllers.CustomXbox;
 import org.usfirst.frc4904.standard.humaninput.Driver;
 import org.usfirst.frc4904.standard.subsystems.chassis.SolenoidShifters;
+import org.usfirst.frc4904.standard.subsystems.motor.Motor;
+import edu.wpi.first.wpilibj.VictorSP;
 
 public class NathanGain extends Driver {
 	public NathanGain() {
@@ -16,12 +20,14 @@ public class NathanGain extends Driver {
 	protected double scaleGain(double input, double gain, double exp) {
 		return Math.pow(input, exp) * gain * Math.signum(input);
 	}
+	private static VictorSP motor = new VictorSP(0);
 	
 	@Override
 	public void bindCommands() {
 		RobotMap.HumanInput.Driver.xbox.back.whenPressed(new Kill(new ChassisIdle(RobotMap.Component.chassis)));
 		RobotMap.HumanInput.Driver.xbox.a.whenPressed(new ChassisShift(RobotMap.Component.chassis.getShifter(), SolenoidShifters.ShiftState.DOWN));
 		RobotMap.HumanInput.Driver.xbox.b.whenPressed(new ChassisShift(RobotMap.Component.chassis.getShifter(), SolenoidShifters.ShiftState.UP));
+		new MotorControl(new Motor(NathanGain.motor), RobotMap.HumanInput.Driver.xbox, CustomXbox.RIGHT_Y_AXIS, 1).start();
 	}
 	
 	@Override
