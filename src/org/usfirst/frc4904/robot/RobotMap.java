@@ -25,17 +25,17 @@ public class RobotMap {
 				public static int rightDriveB = 4;
 			}
 		}
-		
+
 		public static class Pneumatics {
 			public static int solenoidUp = 0;
 			public static int solenoidDown = 1;
 		}
-		
+
 		public static class HumanInput {
 			public static final int joystick = 0;
 			public static final int xboxController = 1;
 		}
-		
+
 		public static class CAN {
 			public static final int backLeds = 0x601;
 			public static final int frontLeds = 0x602;
@@ -43,7 +43,7 @@ public class RobotMap {
 			public static final int rightEncoder = 0x610;
 		}
 	}
-	
+
 	public static class Constant {
 		public static class HumanInput {
 			public static final double Y_SPEED_SCALE = 1;
@@ -54,7 +54,7 @@ public class RobotMap {
 			public static final double TURN_GAIN = 1;
 			public static final double TURN_EXP = 2;
 		}
-		
+
 		public static class Chassis {
 			public static double TURN_P = 0.02;
 			public static double TURN_I = 0.001;
@@ -64,7 +64,7 @@ public class RobotMap {
 			public static final double WHEEL_PULSES_PER_REVOLUTION = 1024;
 		}
 	}
-	
+
 	public static class Component {
 		public static Motor leftWheel;
 		public static CustomEncoder leftEncoder;
@@ -77,17 +77,17 @@ public class RobotMap {
 		public static OffseasonLEDs backLeds;
 		public static OffseasonLEDs frontLeds;
 	}
-	
+
 	public static class HumanInput {
 		public static class Driver {
 			public static CustomXbox xbox;
 		}
-		
+
 		public static class Operator {
 			public static CustomJoystick stick;
 		}
 	}
-	
+
 	public RobotMap() {
 		Component.pdp = new PDP();
 		Component.shifter = new SolenoidShifters(Port.Pneumatics.solenoidUp, Port.Pneumatics.solenoidDown);
