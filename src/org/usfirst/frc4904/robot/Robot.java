@@ -1,13 +1,9 @@
 package org.usfirst.frc4904.robot;
 
 
-import org.usfirst.frc4904.robot.humaninput.drivers.JoystickControl;
-import org.usfirst.frc4904.robot.humaninput.drivers.Nathan;
 import org.usfirst.frc4904.robot.humaninput.drivers.NathanGain;
-import org.usfirst.frc4904.robot.humaninput.drivers.PureStick;
 import org.usfirst.frc4904.standard.CommandRobotBase;
-import org.usfirst.frc4904.standard.commands.chassis.ChassisIdle;
-import org.usfirst.frc4904.standard.commands.chassis.ChassisMove;
+import org.usfirst.frc4904.standard.LogKitten;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -25,13 +21,8 @@ public class Robot extends CommandRobotBase {
 	 */
 	@Override
 	public void initialize() {
-		// Configure autonomous command chooser
-		autoChooser.addDefault(new ChassisIdle(RobotMap.Component.chassis));
 		// Configure driver command chooser
 		driverChooser.addDefault(new NathanGain());
-		driverChooser.addObject(new Nathan());
-		driverChooser.addObject(new JoystickControl());
-		driverChooser.addObject(new PureStick());
 		RobotMap.Component.backLeds.disable();
 		RobotMap.Component.frontLeds.disable();
 	}
@@ -50,8 +41,6 @@ public class Robot extends CommandRobotBase {
 
 	@Override
 	public void teleopInitialize() {
-		teleopCommand = new ChassisMove(RobotMap.Component.chassis, driverChooser.getSelected());
-		teleopCommand.start();
 		RobotMap.Component.backLeds.enable();
 		RobotMap.Component.frontLeds.enable();
 	}
@@ -73,6 +62,10 @@ public class Robot extends CommandRobotBase {
 	public void teleopExecute() {
 		RobotMap.Component.backLeds.setValue((int) (Math.abs(driverChooser.getSelected().getY()) * 96));
 		RobotMap.Component.frontLeds.setValue((int) (Math.abs(driverChooser.getSelected().getY()) * 96));
+		double throttle = RobotMap.HumanInput.Operator.stick.getThrottle();
+		LogKitten.wtf(throttle + "");
+		RobotMap.Component.flywheel.set(throttle);
+		RobotMap.Component.elevator.set(1);
 	}
 
 	@Override
