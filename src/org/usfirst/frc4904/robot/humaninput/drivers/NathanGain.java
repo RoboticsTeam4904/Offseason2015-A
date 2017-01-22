@@ -30,13 +30,13 @@ public class NathanGain extends Driver {
 		RobotMap.HumanInput.Driver.xbox.a.whenPressed(new ChassisShift(RobotMap.Component.chassis.getShifter(), SolenoidShifters.ShiftState.DOWN));
 		RobotMap.HumanInput.Driver.xbox.b.whenPressed(new ChassisShift(RobotMap.Component.chassis.getShifter(), SolenoidShifters.ShiftState.UP));
 		// D-Pad align
-		RobotMap.HumanInput.Driver.xbox.dPad.up.whenPressed(new ChassisTurnAbsolute(RobotMap.Component.chassis, 0, RobotMap.Component.navx, RobotMap.Component.chassisMC));
+		RobotMap.HumanInput.Driver.xbox.dPad.up.whenPressed(new ChassisTurnAbsolute(RobotMap.Component.chassis, 180, RobotMap.Component.navx, RobotMap.Component.chassisMC));
 		RobotMap.HumanInput.Driver.xbox.dPad.up.whenReleased(normalDrive);
-		RobotMap.HumanInput.Driver.xbox.dPad.down.whenPressed(new ChassisTurnAbsolute(RobotMap.Component.chassis, 180, RobotMap.Component.navx, RobotMap.Component.chassisMC));
+		RobotMap.HumanInput.Driver.xbox.dPad.down.whenPressed(new ChassisTurnAbsolute(RobotMap.Component.chassis, 0, RobotMap.Component.navx, RobotMap.Component.chassisMC));
 		RobotMap.HumanInput.Driver.xbox.dPad.down.whenReleased(normalDrive);
-		RobotMap.HumanInput.Driver.xbox.dPad.left.whenPressed(new ChassisTurnAbsolute(RobotMap.Component.chassis, 90, RobotMap.Component.navx, RobotMap.Component.chassisMC));
+		RobotMap.HumanInput.Driver.xbox.dPad.left.whenPressed(new ChassisTurnAbsolute(RobotMap.Component.chassis, 270, RobotMap.Component.navx, RobotMap.Component.chassisMC));
 		RobotMap.HumanInput.Driver.xbox.dPad.left.whenReleased(normalDrive);
-		RobotMap.HumanInput.Driver.xbox.dPad.right.whenPressed(new ChassisTurnAbsolute(RobotMap.Component.chassis, 270, RobotMap.Component.navx, RobotMap.Component.chassisMC));
+		RobotMap.HumanInput.Driver.xbox.dPad.right.whenPressed(new ChassisTurnAbsolute(RobotMap.Component.chassis, 90, RobotMap.Component.navx, RobotMap.Component.chassisMC));
 		RobotMap.HumanInput.Driver.xbox.dPad.right.whenReleased(normalDrive);
 		// Auto drive 2 feet
 		RobotMap.HumanInput.Driver.xbox.rb.whenPressed(new ChassisMoveDistance(RobotMap.Component.chassis, 800, RobotMap.Component.chassisEncoderMC, new KittenCommand("Drive Encoder Error", LogKitten.LEVEL_WTF), RobotMap.Component.leftEncoder, RobotMap.Component.rightEncoder));
