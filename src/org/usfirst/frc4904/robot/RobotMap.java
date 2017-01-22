@@ -4,8 +4,11 @@ package org.usfirst.frc4904.robot;
 import org.usfirst.frc4904.robot.leds.OffseasonLEDs;
 import org.usfirst.frc4904.standard.custom.controllers.CustomJoystick;
 import org.usfirst.frc4904.standard.custom.controllers.CustomXbox;
+import org.usfirst.frc4904.standard.custom.motioncontrollers.CustomPIDController;
+import org.usfirst.frc4904.standard.custom.motioncontrollers.MotionController;
 import org.usfirst.frc4904.standard.custom.sensors.CANEncoder;
 import org.usfirst.frc4904.standard.custom.sensors.CustomEncoder;
+import org.usfirst.frc4904.standard.custom.sensors.EncoderGroup;
 import org.usfirst.frc4904.standard.custom.sensors.NavX;
 import org.usfirst.frc4904.standard.custom.sensors.PDP;
 import org.usfirst.frc4904.standard.subsystems.chassis.SolenoidShifters;
@@ -40,7 +43,7 @@ public class RobotMap {
 			public static final int backLeds = 0x601;
 			public static final int frontLeds = 0x602;
 			public static final int leftEncoder = 0x611;
-			public static final int rightEncoder = 0x610;
+			public static final int rightEncoder = 0x612;
 		}
 	}
 
@@ -72,6 +75,8 @@ public class RobotMap {
 		public static CustomEncoder rightEncoder;
 		public static SolenoidShifters shifter;
 		public static TankDriveShifting chassis;
+		public static MotionController chassisMC;
+		public static MotionController chassisEncoderMC;
 		public static PDP pdp;
 		public static NavX navx;
 		public static OffseasonLEDs backLeds;
@@ -91,6 +96,13 @@ public class RobotMap {
 	public RobotMap() {
 		Component.pdp = new PDP();
 		Component.shifter = new SolenoidShifters(Port.Pneumatics.solenoidUp, Port.Pneumatics.solenoidDown);
+		Component.navx = new NavX(SerialPort.Port.kMXP);
+		Component.chassisMC = new CustomPIDController(0.01, 0.0, -0.02, RobotMap.Component.navx);
+		Component.chassisMC.setInputRange(-180, 180);
+		Component.chassisMC.setContinuous(true);
+		Component.leftEncoder = new CANEncoder("LeftEncoder", Port.CAN.leftEncoder, false);
+		Component.rightEncoder = new CANEncoder("RightEncoder", Port.CAN.rightEncoder, false);
+		Component.chassisEncoderMC = new CustomPIDController(0.001, 0.0, -0.002, new EncoderGroup(100, Component.leftEncoder, Component.rightEncoder));
 		Component.leftWheel = new Motor("LeftWheel", false, new AccelerationCap(Component.pdp), new CANTalon(Port.Motors.CAN.leftDriveA), new CANTalon(Port.Motors.CAN.leftDriveB));
 		Component.rightWheel = new Motor("RightWheel", false, new AccelerationCap(Component.pdp), new CANTalon(Port.Motors.CAN.rightDriveA), new CANTalon(Port.Motors.CAN.rightDriveB));
 		Component.leftEncoder = new CANEncoder(Port.CAN.leftEncoder);
@@ -101,11 +113,8 @@ public class RobotMap {
 		Component.chassis = new TankDriveShifting("OffseasonChassis", Component.leftWheel, Component.rightWheel, Component.shifter);
 		HumanInput.Driver.xbox = new CustomXbox(Port.HumanInput.xboxController);
 		HumanInput.Operator.stick = new CustomJoystick(Port.HumanInput.joystick);
-		Component.navx = new NavX(SerialPort.Port.kMXP);
 		HumanInput.Driver.xbox.setDeadZone(Constant.HumanInput.XBOX_MINIMUM_THRESHOLD);
 		Component.backLeds = new OffseasonLEDs(Port.CAN.backLeds);
 		Component.frontLeds = new OffseasonLEDs(Port.CAN.frontLeds);
-		Component.leftEncoder = new CANEncoder("LeftEncoder", Port.CAN.leftEncoder, false);
-		Component.rightEncoder = new CANEncoder("RightEncoder", Port.CAN.rightEncoder, false);
 	}
 }
