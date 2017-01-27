@@ -102,15 +102,20 @@ public class RobotMap {
 		Component.chassisMC.setContinuous(true);
 		Component.leftEncoder = new CANEncoder("LeftEncoder", Port.CAN.leftEncoder, false);
 		Component.rightEncoder = new CANEncoder("RightEncoder", Port.CAN.rightEncoder, false);
-		Component.chassisEncoderMC = new CustomPIDController(0.001, 0.0, -0.002, new EncoderGroup(100, Component.leftEncoder, Component.rightEncoder));
-		Component.leftWheel = new Motor("LeftWheel", false, new AccelerationCap(Component.pdp), new CANTalon(Port.Motors.CAN.leftDriveA), new CANTalon(Port.Motors.CAN.leftDriveB));
-		Component.rightWheel = new Motor("RightWheel", false, new AccelerationCap(Component.pdp), new CANTalon(Port.Motors.CAN.rightDriveA), new CANTalon(Port.Motors.CAN.rightDriveB));
+		Component.chassisEncoderMC = new CustomPIDController(0.001, 0.0, -0.002,
+			new EncoderGroup(100, Component.leftEncoder, Component.rightEncoder));
+		Component.leftWheel = new Motor("LeftWheel", false, new AccelerationCap(Component.pdp),
+			new CANTalon(Port.Motors.CAN.leftDriveA), new CANTalon(Port.Motors.CAN.leftDriveB));
+		Component.rightWheel = new Motor("RightWheel", false, new AccelerationCap(Component.pdp),
+			new CANTalon(Port.Motors.CAN.rightDriveA), new CANTalon(Port.Motors.CAN.rightDriveB));
 		Component.leftEncoder = new CANEncoder(Port.CAN.leftEncoder);
 		Component.rightEncoder = new CANEncoder(Port.CAN.rightEncoder);
-		double inchesPerPulse = 2 * Math.PI * Constant.Chassis.WHEEL_RADIUS_INCHES / Constant.Chassis.WHEEL_PULSES_PER_REVOLUTION;
+		double inchesPerPulse = 2 * Math.PI * Constant.Chassis.WHEEL_RADIUS_INCHES
+			/ Constant.Chassis.WHEEL_PULSES_PER_REVOLUTION;
 		Component.leftEncoder.setDistancePerPulse(inchesPerPulse);
 		Component.rightEncoder.setDistancePerPulse(inchesPerPulse);
-		Component.chassis = new TankDriveShifting("OffseasonChassis", Component.leftWheel, Component.rightWheel, Component.shifter);
+		Component.chassis = new TankDriveShifting("OffseasonChassis", Component.leftWheel, Component.rightWheel,
+			Component.shifter);
 		HumanInput.Driver.xbox = new CustomXbox(Port.HumanInput.xboxController);
 		HumanInput.Operator.stick = new CustomJoystick(Port.HumanInput.joystick);
 		HumanInput.Driver.xbox.setDeadZone(Constant.HumanInput.XBOX_MINIMUM_THRESHOLD);
