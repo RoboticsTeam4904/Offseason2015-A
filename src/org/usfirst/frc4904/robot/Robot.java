@@ -18,7 +18,7 @@ import org.usfirst.frc4904.standard.commands.chassis.ChassisMove;
  */
 public class Robot extends CommandRobotBase {
 	RobotMap map = new RobotMap();
-	
+
 	/**
 	 * This function is run when the robot is first started up and should be
 	 * used for any initialization code.
@@ -36,19 +36,19 @@ public class Robot extends CommandRobotBase {
 		RobotMap.Component.frontLeds.disable();
 		RobotMap.Component.navx.zeroYaw();
 	}
-	
+
 	@Override
 	public void disabledExecute() {}
-	
+
 	@Override
 	public void autonomousInitialize() {}
-	
+
 	/**
 	 * This function is called periodically during autonomous
 	 */
 	@Override
 	public void autonomousExecute() {}
-	
+
 	@Override
 	public void teleopInitialize() {
 		teleopCommand = new ChassisMove(RobotMap.Component.chassis, driverChooser.getSelected());
@@ -56,7 +56,7 @@ public class Robot extends CommandRobotBase {
 		RobotMap.Component.backLeds.enable();
 		RobotMap.Component.frontLeds.enable();
 	}
-	
+
 	/**
 	 * This function is called when the disabled button is hit. You can use it
 	 * to reset subsystems before shutting down.
@@ -66,7 +66,7 @@ public class Robot extends CommandRobotBase {
 		RobotMap.Component.backLeds.disable();
 		RobotMap.Component.frontLeds.disable();
 	}
-	
+
 	/**
 	 * This function is called periodically during operator control
 	 */
