@@ -1,13 +1,12 @@
 package org.usfirst.frc4904.robot;
 
-
 import org.usfirst.frc4904.robot.humaninput.drivers.JoystickControl;
 import org.usfirst.frc4904.robot.humaninput.drivers.Nathan;
 import org.usfirst.frc4904.robot.humaninput.drivers.NathanGain;
 import org.usfirst.frc4904.robot.humaninput.drivers.PureStick;
 import org.usfirst.frc4904.standard.CommandRobotBase;
-import org.usfirst.frc4904.standard.commands.chassis.ChassisIdle;
-import org.usfirst.frc4904.standard.commands.chassis.ChassisMove;
+import org.usfirst.frc4904.standard.LogKitten;
+import org.usfirst.frc4904.standard.custom.CANMessageUnavailableException;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -26,35 +25,31 @@ public class Robot extends CommandRobotBase {
 	@Override
 	public void initialize() {
 		// Configure autonomous command chooser
-		autoChooser.addDefault(new ChassisIdle(RobotMap.Component.chassis));
 		// Configure driver command chooser
 		driverChooser.addDefault(new NathanGain());
 		driverChooser.addObject(new Nathan());
 		driverChooser.addObject(new JoystickControl());
 		driverChooser.addObject(new PureStick());
-		RobotMap.Component.backLeds.disable();
-		RobotMap.Component.frontLeds.disable();
-		RobotMap.Component.navx.zeroYaw();
 	}
 
 	@Override
-	public void disabledExecute() {}
+	public void disabledExecute() {
+	}
 
 	@Override
-	public void autonomousInitialize() {}
+	public void autonomousInitialize() {
+	}
 
 	/**
 	 * This function is called periodically during autonomous
 	 */
 	@Override
-	public void autonomousExecute() {}
+	public void autonomousExecute() {
+	}
 
 	@Override
 	public void teleopInitialize() {
-		teleopCommand = new ChassisMove(RobotMap.Component.chassis, driverChooser.getSelected());
-		teleopCommand.start();
-		RobotMap.Component.backLeds.enable();
-		RobotMap.Component.frontLeds.enable();
+		// teleopCommand.start();
 	}
 
 	/**
@@ -63,8 +58,6 @@ public class Robot extends CommandRobotBase {
 	 */
 	@Override
 	public void disabledInitialize() {
-		RobotMap.Component.backLeds.disable();
-		RobotMap.Component.frontLeds.disable();
 	}
 
 	/**
@@ -72,19 +65,24 @@ public class Robot extends CommandRobotBase {
 	 */
 	@Override
 	public void teleopExecute() {
-		RobotMap.Component.backLeds.setValue((int) (Math.abs(driverChooser.getSelected().getY()) * 96));
-		RobotMap.Component.frontLeds.setValue((int) (Math.abs(driverChooser.getSelected().getY()) * 96));
+		RobotMap.Component.testCAN.write(new byte[] { 4, 9, 0, 4, 4, 9, 0, 4 });
+		try {
+			LogKitten.wtf(RobotMap.Component.testCAN.read());
+		} catch (CANMessageUnavailableException e) {
+			// TODO Auto-generated catch block
+			LogKitten.wtf("can message unavailable " + e);
+		}
 	}
 
 	@Override
-	public void testInitialize() {}
+	public void testInitialize() {
+	}
 
 	@Override
-	public void testExecute() {}
+	public void testExecute() {
+	}
 
 	@Override
 	public void alwaysExecute() {
-		RobotMap.Component.backLeds.update();
-		RobotMap.Component.frontLeds.update();
 	}
 }

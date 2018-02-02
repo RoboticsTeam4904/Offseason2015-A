@@ -1,22 +1,9 @@
 package org.usfirst.frc4904.robot;
 
-
-import org.usfirst.frc4904.robot.leds.OffseasonLEDs;
+import org.usfirst.frc4904.standard.custom.CustomCAN;
 import org.usfirst.frc4904.standard.custom.controllers.CustomJoystick;
 import org.usfirst.frc4904.standard.custom.controllers.CustomXbox;
-import org.usfirst.frc4904.standard.custom.motioncontrollers.CustomPIDController;
-import org.usfirst.frc4904.standard.custom.motioncontrollers.MotionController;
-import org.usfirst.frc4904.standard.custom.sensors.CANEncoder;
-import org.usfirst.frc4904.standard.custom.sensors.CustomEncoder;
-import org.usfirst.frc4904.standard.custom.sensors.EncoderGroup;
-import org.usfirst.frc4904.standard.custom.sensors.NavX;
 import org.usfirst.frc4904.standard.custom.sensors.PDP;
-import org.usfirst.frc4904.standard.subsystems.chassis.SolenoidShifters;
-import org.usfirst.frc4904.standard.subsystems.chassis.TankDriveShifting;
-import org.usfirst.frc4904.standard.subsystems.motor.Motor;
-import org.usfirst.frc4904.standard.subsystems.motor.speedmodifiers.AccelerationCap;
-import com.ctre.CANTalon;
-import edu.wpi.first.wpilibj.SerialPort;
 
 public class RobotMap {
 	public static class Port {
@@ -69,18 +56,9 @@ public class RobotMap {
 	}
 
 	public static class Component {
-		public static Motor leftWheel;
-		public static CustomEncoder leftEncoder;
-		public static Motor rightWheel;
-		public static CustomEncoder rightEncoder;
-		public static SolenoidShifters shifter;
-		public static TankDriveShifting chassis;
-		public static MotionController chassisMC;
-		public static MotionController chassisEncoderMC;
+		public static CustomCAN testCAN;
+
 		public static PDP pdp;
-		public static NavX navx;
-		public static OffseasonLEDs backLeds;
-		public static OffseasonLEDs frontLeds;
 	}
 
 	public static class HumanInput {
@@ -95,31 +73,7 @@ public class RobotMap {
 
 	public RobotMap() {
 		Component.pdp = new PDP();
-		Component.shifter = new SolenoidShifters(Port.Pneumatics.solenoidUp, Port.Pneumatics.solenoidDown);
-		Component.navx = new NavX(SerialPort.Port.kMXP);
-		Component.chassisMC = new CustomPIDController(0.01, 0.0, -0.02, RobotMap.Component.navx);
-		Component.chassisMC.setInputRange(-180, 180);
-		Component.chassisMC.setContinuous(true);
-		Component.leftEncoder = new CANEncoder("LeftEncoder", Port.CAN.leftEncoder, false);
-		Component.rightEncoder = new CANEncoder("RightEncoder", Port.CAN.rightEncoder, false);
-		Component.chassisEncoderMC = new CustomPIDController(0.001, 0.0, -0.002,
-			new EncoderGroup(100, Component.leftEncoder, Component.rightEncoder));
-		Component.leftWheel = new Motor("LeftWheel", false, new AccelerationCap(Component.pdp),
-			new CANTalon(Port.Motors.CAN.leftDriveA), new CANTalon(Port.Motors.CAN.leftDriveB));
-		Component.rightWheel = new Motor("RightWheel", false, new AccelerationCap(Component.pdp),
-			new CANTalon(Port.Motors.CAN.rightDriveA), new CANTalon(Port.Motors.CAN.rightDriveB));
-		Component.leftEncoder = new CANEncoder(Port.CAN.leftEncoder);
-		Component.rightEncoder = new CANEncoder(Port.CAN.rightEncoder);
-		double inchesPerPulse = 2 * Math.PI * Constant.Chassis.WHEEL_RADIUS_INCHES
-			/ Constant.Chassis.WHEEL_PULSES_PER_REVOLUTION;
-		Component.leftEncoder.setDistancePerPulse(inchesPerPulse);
-		Component.rightEncoder.setDistancePerPulse(inchesPerPulse);
-		Component.chassis = new TankDriveShifting("OffseasonChassis", Component.leftWheel, Component.rightWheel,
-			Component.shifter);
-		HumanInput.Driver.xbox = new CustomXbox(Port.HumanInput.xboxController);
-		HumanInput.Operator.stick = new CustomJoystick(Port.HumanInput.joystick);
-		HumanInput.Driver.xbox.setDeadZone(Constant.HumanInput.XBOX_MINIMUM_THRESHOLD);
-		Component.backLeds = new OffseasonLEDs(Port.CAN.backLeds);
-		Component.frontLeds = new OffseasonLEDs(Port.CAN.frontLeds);
+		Component.testCAN = new CustomCAN("testCAN", 0x654);
+
 	}
 }
